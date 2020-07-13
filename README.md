@@ -1,2 +1,3 @@
-# sentinel
-A online portal for taking exams
+# The Sentinel
+
+A online exam portal
