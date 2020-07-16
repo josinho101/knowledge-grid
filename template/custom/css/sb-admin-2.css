@@ -7942,11 +7942,11 @@ button.bg-dark:focus {
   margin-left: 3rem !important;
 }
 
-.mt-7{
+.mt-7 {
   margin-top: 9rem !important;
 }
 
-.ml-5{  
+.ml-5 {
   margin-left: 3rem !important;
 }
 
@@ -10063,7 +10063,7 @@ a:focus {
 
 .bg-gradient-grey {
   background-color: #4e73df;
-  background-image: linear-gradient(180deg, #494f75 10%, #5a5c69 100%);
+  background-image: linear-gradient(180deg, #494f75 10%, #050713 100%);
   background-size: cover;
 }
 
