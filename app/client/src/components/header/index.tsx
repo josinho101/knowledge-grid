@@ -15,7 +15,7 @@ const Header: React.FunctionComponent = () => {
         >
           <i className="fa fa-bars"></i>
         </button>
-        <UserProfile />
+        <UserProfile displayName={"John Honai"} />
       </nav>
     </header>
   );

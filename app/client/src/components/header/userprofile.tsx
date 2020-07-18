@@ -1,7 +1,13 @@
 import React from "react";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import profileIcon from "../../assets/images/dummy-user.jpg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const UserProfile: React.FunctionComponent = () => {
+interface Props {
+  displayName: string;
+}
+
+const UserProfile: React.FunctionComponent<Props> = (props) => {
   return (
     <ul className="navbar-nav ml-auto">
       <li className="nav-item dropdown no-arrow">
@@ -15,7 +21,7 @@ const UserProfile: React.FunctionComponent = () => {
           aria-expanded="false"
         >
           <span className="mr-2 d-none d-lg-inline text-white-600 small">
-            John Honai
+            {props.displayName}
           </span>
           <img className="img-profile rounded-circle" src={profileIcon} />
         </a>
@@ -29,7 +35,10 @@ const UserProfile: React.FunctionComponent = () => {
             data-toggle="modal"
             data-target="#logoutModal"
           >
-            <i className="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+            <FontAwesomeIcon
+              icon={["fas", "sign-out-alt"]}
+              className="fa-fw mr-2 text-gray-400"
+            />
             Logout
           </a>
         </div>
