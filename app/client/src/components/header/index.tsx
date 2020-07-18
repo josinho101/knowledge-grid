@@ -1,6 +1,7 @@
 import React from "react";
 import UserProfile from "./userprofile";
 import logo from "../../assets/images/logo.png";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Header: React.FunctionComponent = () => {
   return (
@@ -13,7 +14,10 @@ const Header: React.FunctionComponent = () => {
           id="sidebarToggleTop"
           className="btn btn-link d-md-none rounded-circle mr-3"
         >
-          <i className="fa fa-bars"></i>
+          <FontAwesomeIcon
+            icon={["fas", "bars"]}
+            className="fa-fw mr-2 text-gray-400"
+          />
         </button>
         <UserProfile displayName={"John Honai"} />
       </nav>

@@ -1,5 +1,4 @@
 import React from "react";
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import profileIcon from "../../assets/images/dummy-user.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
