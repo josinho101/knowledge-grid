@@ -1,10 +1,20 @@
-import React from "react";
+import classNames from "classnames";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const LeftNavigator: React.FunctionComponent = () => {
+  const [isOpen, setNavState] = useState(true);
+
+  const onToggleClick = () => {
+    setNavState(!isOpen);
+  };
+
   return (
     <ul
-      className="navbar-nav bg-gradient-grey sidebar sidebar-dark accordion"
+      className={classNames(
+        "navbar-nav bg-gradient-grey sidebar sidebar-dark accordion",
+        { toggled: !isOpen }
+      )}
       id="accordionSidebar"
     >
       <hr className="sidebar-divider my-0" />
@@ -12,9 +22,9 @@ const LeftNavigator: React.FunctionComponent = () => {
       <li className="nav-item">
         <a className="nav-link" href="/">
           <FontAwesomeIcon
-            icon={["fas", "tachometer-alt"]}
             size="sm"
-            className="fa-fw mr-2 text-gray-400"
+            icon={["fas", "tachometer-alt"]}
+            className={classNames({ "fa-fw mr-2 text-gray-400": isOpen })}
           />
           <span>Dashboard</span>
         </a>
@@ -34,9 +44,9 @@ const LeftNavigator: React.FunctionComponent = () => {
           aria-controls="collapseUtilities"
         >
           <FontAwesomeIcon
-            icon={["fas", "book"]}
             size="sm"
-            className="fa-fw mr-2 text-gray-400"
+            icon={["fas", "book"]}
+            className={classNames({ "fa-fw mr-2 text-gray-400": isOpen })}
           />
           <span>Library</span>
         </a>
@@ -60,9 +70,9 @@ const LeftNavigator: React.FunctionComponent = () => {
       <li className="nav-item">
         <a className="nav-link" href="#">
           <FontAwesomeIcon
-            icon={["fas", "object-group"]}
             size="sm"
-            className="fa-fw mr-2 text-gray-400"
+            icon={["fas", "object-group"]}
+            className={classNames({ "fa-fw mr-2 text-gray-400": isOpen })}
           />
           <span>Testlet</span>
         </a>
@@ -71,9 +81,9 @@ const LeftNavigator: React.FunctionComponent = () => {
       <li className="nav-item">
         <a className="nav-link" href="#">
           <FontAwesomeIcon
-            icon={["fas", "flask"]}
             size="sm"
-            className="fa-fw mr-2 text-gray-400"
+            icon={["fas", "flask"]}
+            className={classNames({ "fa-fw mr-2 text-gray-400": isOpen })}
           />
           <span>Tests</span>
         </a>
@@ -86,9 +96,9 @@ const LeftNavigator: React.FunctionComponent = () => {
       <li className="nav-item">
         <a className="nav-link" href="#">
           <FontAwesomeIcon
-            icon={["fas", "user"]}
             size="sm"
-            className="fa-fw mr-2 text-gray-400"
+            icon={["fas", "user"]}
+            className={classNames({ "fa-fw mr-2 text-gray-400": isOpen })}
           />
           <span>Candidates</span>
         </a>
@@ -99,9 +109,9 @@ const LeftNavigator: React.FunctionComponent = () => {
       <li className="nav-item">
         <a className="nav-link" href="#">
           <FontAwesomeIcon
-            icon={["fas", "users"]}
             size="sm"
-            className="fa-fw mr-2 text-gray-400"
+            icon={["fas", "users"]}
+            className={classNames({ "fa-fw mr-2 text-gray-400": isOpen })}
           />
           <span>Users</span>
         </a>
@@ -110,9 +120,9 @@ const LeftNavigator: React.FunctionComponent = () => {
       <li className="nav-item">
         <a className="nav-link" href="#">
           <FontAwesomeIcon
-            icon={["fas", "cog"]}
             size="sm"
-            className="fa-fw mr-2 text-gray-400"
+            icon={["fas", "cog"]}
+            className={classNames({ "fa-fw mr-2 text-gray-400": isOpen })}
           />
           <span>Roles &amp; Permissions</span>
         </a>
@@ -121,7 +131,11 @@ const LeftNavigator: React.FunctionComponent = () => {
       <hr className="sidebar-divider d-none d-md-block" />
 
       <div className="text-center d-none d-md-inline">
-        <button className="rounded-circle border-0" id="sidebarToggle"></button>
+        <button
+          className="rounded-circle border-0"
+          id="sidebarToggle"
+          onClick={onToggleClick}
+        ></button>
       </div>
     </ul>
   );
