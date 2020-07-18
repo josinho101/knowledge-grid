@@ -2,7 +2,7 @@ import classNames from "classnames";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const LeftNavigator: React.FunctionComponent = () => {
+const SiteNavigator: React.FunctionComponent = () => {
   const [isOpen, setNavState] = useState(true);
 
   const onToggleClick = () => {
@@ -141,4 +141,4 @@ const LeftNavigator: React.FunctionComponent = () => {
   );
 };
 
-export default LeftNavigator;
+export default SiteNavigator;
