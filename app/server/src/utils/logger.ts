@@ -1,6 +1,7 @@
 import winston from "winston";
 import { format } from "winston";
 const { combine, timestamp, prettyPrint } = format;
+import * as settings from "../appsettings.json";
 
 class Logger {
   private _logger: winston.Logger;
@@ -12,10 +13,15 @@ class Logger {
     }-${today.getFullYear()}.log`;
 
     this._logger = winston.createLogger({
-      level: "info",
+      level: settings.Log.level,
       format: combine(timestamp(), prettyPrint()),
       transports: [
-        new winston.transports.Console(),
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.colorize(),
+            winston.format.simple()
+          ),
+        }),
         new winston.transports.File({ filename: filename }),
       ],
     });
@@ -27,6 +33,22 @@ class Logger {
    */
   public info(object: any) {
     this._logger.info(object);
+  }
+
+  /**
+   * log as warning
+   * @param object object to log
+   */
+  public warning(object: any) {
+    this._logger.warning(object);
+  }
+
+  /**
+   * log as debug
+   * @param object object to log
+   */
+  public debug(object: any) {
+    this._logger.debug(object);
   }
 
   /**
