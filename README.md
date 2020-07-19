@@ -4,6 +4,8 @@ A online exam portal
 
 ![Screen](./screenshots/logo.png)
 
+### Technology stack
+
 ![Screen](./screenshots/mern-stack.png)
 
 ### How to run
