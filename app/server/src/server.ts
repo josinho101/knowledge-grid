@@ -1,12 +1,16 @@
 import express from "express";
+import configureMIddleware from "./middlewares";
+import logger from "./utils/logger";
 
 const app: express.Application = express();
 const port = process.env.PORT || 3001;
 
-app.get("/", function (req, res) {
+configureMIddleware(app);
+
+app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-app.listen(port, function () {
-  console.log(`Sentinel server started at port ${port}`);
+app.listen(port, () => {
+  logger.info(`Sentinel server started at port ${port}`);
 });
