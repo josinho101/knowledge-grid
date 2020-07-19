@@ -1,15 +1,16 @@
 import express from "express";
-import configureMIddleware from "./middlewares";
 import logger from "./utils/logger";
+import configureRoutes from "./controllers";
+import * as settings from "./appsettings.json";
+import configureMiddleware from "./middlewares";
+import connectDatabase from "./utils/dbconnector";
 
 const app: express.Application = express();
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || settings.dev.port;
 
-configureMIddleware(app);
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+connectDatabase();
+configureMiddleware(app);
+configureRoutes(app);
 
 app.listen(port, () => {
   logger.info(`Sentinel server started at port ${port}`);
