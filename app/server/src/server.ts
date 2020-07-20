@@ -1,17 +1,21 @@
+import config from "config";
 import express from "express";
 import logger from "./utils/logger";
 import configureRoutes from "./controllers";
-import * as settings from "./appsettings.json";
 import configureMiddleware from "./middlewares";
 import connectDatabase from "./utils/dbconnector";
 
 const app: express.Application = express();
-const port = process.env.PORT || settings.dev.port;
+const port = process.env.PORT || config.get("port");
 
-connectDatabase();
-configureMiddleware(app);
-configureRoutes(app);
+(async () => {
+  logger.info(`============ Starting sentinel server ============`);
 
-app.listen(port, () => {
-  logger.info(`Sentinel server started at port ${port}`);
-});
+  await connectDatabase();
+  configureMiddleware(app);
+  configureRoutes(app);
+
+  app.listen(port, () => {
+    logger.info(`Sentinel server started running on port ${port}`);
+  });
+})();

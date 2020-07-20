@@ -7,7 +7,7 @@ class AuthController extends Controller {
     this.mapRoute();
   }
 
-  mapRoute() {
+  protected mapRoute() {
     this.router.get("/", this.auth);
   }
 

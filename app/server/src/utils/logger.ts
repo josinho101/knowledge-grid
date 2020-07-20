@@ -1,19 +1,19 @@
-import winston from "winston";
-import { format } from "winston";
+import config from "config";
+import winston, { format } from "winston";
 const { combine, timestamp, prettyPrint } = format;
-import * as settings from "../appsettings.json";
 
 class Logger {
   private _logger: winston.Logger;
 
   constructor() {
     let today = new Date();
-    let filename = `logs/sentinel-${today.getDate()}-${
+    let path = config.get("log.path");
+    let filename = `${path}/sentinel-${today.getDate()}-${
       today.getMonth() + 1
     }-${today.getFullYear()}.log`;
 
     this._logger = winston.createLogger({
-      level: settings.Log.level,
+      level: config.get("log.level"),
       format: combine(timestamp(), prettyPrint()),
       transports: [
         new winston.transports.Console({
