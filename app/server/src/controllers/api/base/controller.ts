@@ -1,4 +1,5 @@
-import express, { Router } from "express";
+import express, { Router, Request } from "express";
+import { validationResult, ValidationError } from "express-validator";
 
 abstract class Controller {
   public router: Router;
@@ -12,6 +13,21 @@ abstract class Controller {
 
   // map routes on controller
   protected abstract mapRoute(): void;
+
+  // common function to validate the request and get errors
+  protected validationResult = (req: Request) => {
+    const errors = validationResult(req)
+      .formatWith((error: ValidationError) => {
+        return {
+          message: error.msg,
+          param: error.param,
+          value: error.value,
+        };
+      })
+      .array();
+
+    return errors;
+  };
 }
 
 export default Controller;
