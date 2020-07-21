@@ -1,3 +1,4 @@
+import Error from "../../../models/error";
 import express, { Router, Request } from "express";
 import { validationResult, ValidationError } from "express-validator";
 
@@ -22,7 +23,7 @@ abstract class Controller {
           message: error.msg,
           param: error.param,
           value: error.value,
-        };
+        } as Error;
       })
       .array();
 
