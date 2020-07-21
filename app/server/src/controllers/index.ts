@@ -5,7 +5,7 @@ import { Application, Response, Request } from "express";
 
 const configureRoutes = (app: Application) => {
   app.use("/api/auth", AuthController);
-  app.use("/api/user", UserController);
+  app.use("/api/users", UserController);
 
   // route for handling 404 errors. Should be the last route.
   app.use((req: Request, res: Response) => {

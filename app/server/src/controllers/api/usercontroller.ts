@@ -1,12 +1,12 @@
 import config from "config";
-import bcrypt from "bcryptjs";
-import jwt, { Secret } from "jsonwebtoken";
 import User from "../../models/User";
-import Error from "../../models/error";
+import logger from "../../utils/logger";
+import jwt, { Secret } from "jsonwebtoken";
 import httpStatus from "http-status-codes";
 import Controller from "./base/controller";
 import { Response, Request } from "express";
 import ApiResult from "../../models/ApiResult";
+import userService from "../../services/userservice";
 import { userRegistrationValidator } from "../../validators/uservalidator";
 
 class UserController extends Controller {
@@ -30,28 +30,23 @@ class UserController extends Controller {
     const { firstname, lastname, email, password } = req.body;
 
     try {
-      // check if user already exist
-      let user = await User.findOne({ email });
-      if (user) {
-        let error: Error = { message: "User with email already exist" };
-        return res
-          .status(httpStatus.BAD_REQUEST)
-          .json({ errors: [error] } as ApiResult);
-      }
-
-      user = new User({
+      let user = new User({
         firstname,
         lastname,
         email,
         password,
       });
 
-      // hash password and assign it to user instance
-      const salt = await bcrypt.genSalt(10);
-      user.password = await bcrypt.hash(password, salt);
-
-      // save user
-      await user.save();
+      // try registering the user and get status
+      const [status, error] = await userService.register(user);
+      if (!status) {
+        logger.error(
+          `Registration failed for ${email}, reason ${JSON.stringify(error)}`
+        );
+        return res
+          .status(httpStatus.BAD_REQUEST)
+          .json({ errors: [error] } as ApiResult);
+      }
 
       // generate jwt token
       const payload = {
@@ -68,11 +63,12 @@ class UserController extends Controller {
           throw err;
         }
 
-        return res.status(httpStatus.OK).json({ token: token });
+        logger.info(`User registration completed for user with email ${email}`);
+        return res.status(httpStatus.OK).json({ token: token } as ApiResult);
       });
 
       return null;
-    } catch (error) {
+    } catch {
       return res
         .status(httpStatus.INTERNAL_SERVER_ERROR)
         .json({ errors: "Server Error" } as ApiResult);

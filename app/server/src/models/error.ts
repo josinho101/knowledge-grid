@@ -1,5 +1,5 @@
 export default interface Error {
-  message: string;
+  message?: string;
   param?: string;
   value?: any;
 }
