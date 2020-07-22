@@ -1,9 +1,10 @@
 import config from "config";
 import jwt from "jsonwebtoken";
 import Error from "../models/error";
+import { NextFunction } from "express";
 import httpStatus from "http-status-codes";
 import ApiResult from "../models/ApiResult";
-import { Response, Request, NextFunction } from "express";
+import { Request, Response } from "../types/express";
 
 const auth = (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -13,7 +14,7 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
     }
 
     const decoded = jwt.decode(token, config.get("auth.jwtTokenSecret"));
-    // req.user = decoded?.user;
+    req.user = decoded?.user;
     return next();
   } catch (e) {
     let error: Error = { message: "Invalid token" };

@@ -1,5 +1,6 @@
 import Error from "../../../models/error";
-import express, { Router, Request } from "express";
+import express, { Router } from "express";
+import { Request } from "../../../types/express";
 import { validationResult, ValidationError } from "express-validator";
 
 abstract class Controller {

@@ -4,9 +4,9 @@ import logger from "../../utils/logger";
 import jwt, { Secret } from "jsonwebtoken";
 import httpStatus from "http-status-codes";
 import Controller from "./base/controller";
-import { Response, Request } from "express";
 import ApiResult from "../../models/ApiResult";
 import userService from "../../services/userservice";
+import { Request, Response } from "../../types/express";
 import { userRegistrationValidator } from "../../validators/uservalidator";
 
 class UserController extends Controller {
