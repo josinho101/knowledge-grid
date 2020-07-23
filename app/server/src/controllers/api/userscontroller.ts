@@ -6,27 +6,64 @@ import ApiResult from "../../models/ApiResult";
 import userService from "../../services/userservice";
 import { Request, Response } from "../../types/express";
 import authorize from "../../middlewares/authmiddleware";
-import { userRegistrationValidator } from "../../validators/uservalidator";
+import { registrationValidator } from "../../validators/uservalidator";
 
-class UserController extends Controller {
+class UsersController extends Controller {
   constructor() {
     super();
     this.mapRoute();
   }
 
   protected mapRoute() {
-    this.router.get("/", authorize, this.getUsers);
-    this.router.get("/:userId", authorize, this.getUser);
-    this.router.post("/register", userRegistrationValidator, this.register);
+    this.router.get("/", authorize, this.get);
+    this.router.get("/:userId", authorize, this.getById);
+    this.router.delete("/:userId", authorize, this.delete);
+    this.router.post("/register", registrationValidator, this.post);
   }
 
   /**
    * get user
    */
-  private getUser = async (req: Request, res: Response) => {
+  private delete = async (req: Request, res: Response) => {
     try {
       const userId = req.params["userId"];
-      const user = await userService.getUserById(userId);
+      await userService.delete(userId);
+      logger.info(
+        `Delete request for user ${userId}, initiated by ${req.user?.id}`
+      );
+      return res
+        .status(httpStatus.OK)
+        .json({ data: "User deleted" } as ApiResult);
+    } catch (e) {
+      logger.error(JSON.stringify(e));
+      return res
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .json({ errors: "Server Error" } as ApiResult);
+    }
+  };
+
+  /**
+   * get all users
+   */
+  private get = async (req: Request, res: Response) => {
+    try {
+      const users = await userService.getAll();
+      return res.status(httpStatus.OK).json({ data: users } as ApiResult);
+    } catch (e) {
+      logger.error(JSON.stringify(e));
+      return res
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .json({ errors: "Server Error" } as ApiResult);
+    }
+  };
+
+  /**
+   * get user
+   */
+  private getById = async (req: Request, res: Response) => {
+    try {
+      const userId = req.params["userId"];
+      const user = await userService.getById(userId);
       if (!user) {
         return res
           .status(httpStatus.NOT_FOUND)
@@ -43,23 +80,9 @@ class UserController extends Controller {
   };
 
   /**
-   * get all users
-   */
-  private getUsers = async (req: Request, res: Response) => {
-    try {
-      return res.status(httpStatus.OK).json({ data: req.user } as ApiResult);
-    } catch (e) {
-      logger.error(JSON.stringify(e));
-      return res
-        .status(httpStatus.INTERNAL_SERVER_ERROR)
-        .json({ errors: "Server Error" } as ApiResult);
-    }
-  };
-
-  /**
    * register a user
    */
-  private register = async (req: Request, res: Response) => {
+  private post = async (req: Request, res: Response) => {
     const errors = this.validationResult(req);
     if (errors.length) {
       return res
@@ -91,7 +114,7 @@ class UserController extends Controller {
       }
 
       logger.info(`User registration sucessful for user ${email}`);
-      return res.status(httpStatus.OK).json({ token: token } as ApiResult);
+      return res.status(httpStatus.OK).json({ token: token });
     } catch (e) {
       logger.error(JSON.stringify(e));
       return res
@@ -101,5 +124,5 @@ class UserController extends Controller {
   };
 }
 
-let controller = new UserController();
+let controller = new UsersController();
 export default controller.router;

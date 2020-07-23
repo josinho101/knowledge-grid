@@ -1,19 +1,38 @@
 import mongoose from "mongoose";
+import * as enums from "../enums";
 import Error from "../models/error";
 import Hasher from "../helpers/hasher";
 import User, { IUser } from "../models/User";
 import TokenGenerator from "../helpers/tokengenerator";
 
 class UserService {
+  public delete = async (id: string) => {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      throw window.Error("Invalid Id");
+    }
+
+    await User.findByIdAndUpdate({ _id: id }, { status: enums.status.deleted });
+  };
+
+  public getAll = async () => {
+    return await User.find({ status: enums.status.active })
+      .select("-password")
+      .sort("firstname")
+      .limit(3)
+      .skip(0);
+  };
+
   /**
    * get user by id
    */
-  public getUserById = async (id: string) => {
+  public getById = async (id: string) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return null;
     }
 
-    return await User.findById({ _id: id });
+    return await User.findById({ _id: id, status: enums.status.active }).select(
+      "-password"
+    );
   };
 
   /**
@@ -58,6 +77,7 @@ class UserService {
     } else {
       // hash user password
       user.password = await Hasher.hash(user.password);
+      user.status = enums.status.active;
       // save user and generate token
       await user.save();
       token = this.generateToken(user);
@@ -94,7 +114,7 @@ class UserService {
    * @param email email id
    */
   private getUserByEmail = async (email: string) => {
-    return await User.findOne({ email });
+    return await User.findOne({ email: email, status: enums.status.active });
   };
 }
 

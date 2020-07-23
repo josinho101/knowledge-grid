@@ -46,7 +46,7 @@ class AuthController extends Controller {
       }
 
       logger.info(`User login sucessful for user ${email}`);
-      return res.status(httpStatus.OK).json({ token: token } as ApiResult);
+      return res.status(httpStatus.OK).json({ token: token });
     } catch (e) {
       logger.error(JSON.stringify(e));
       return res

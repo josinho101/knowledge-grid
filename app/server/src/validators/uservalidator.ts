@@ -1,6 +1,6 @@
 import { check } from "express-validator";
 
-export const userRegistrationValidator = (() => {
+export const registrationValidator = (() => {
   return [
     check("firstname", "Firstname is required").not().isEmpty(),
     check("email", "Please provide a valid email id").isEmail(),
