@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 export interface IUser extends mongoose.Document {
+  id: string;
   firstname: string;
   lastname: string;
   email: string;

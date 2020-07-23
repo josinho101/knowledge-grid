@@ -10,3 +10,10 @@ export const userRegistrationValidator = (() => {
     ).isLength({ min: 6 }),
   ];
 })();
+
+export const loginValidator = (() => {
+  return [
+    check("email", "Please provide a valid email id").isEmail(),
+    check("password", "Password can't be empty").exists(),
+  ];
+})();

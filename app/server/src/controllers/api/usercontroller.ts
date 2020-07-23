@@ -1,12 +1,11 @@
-import config from "config";
 import User from "../../models/User";
 import logger from "../../utils/logger";
-import jwt, { Secret } from "jsonwebtoken";
 import httpStatus from "http-status-codes";
 import Controller from "./base/controller";
 import ApiResult from "../../models/ApiResult";
 import userService from "../../services/userservice";
 import { Request, Response } from "../../types/express";
+import authorize from "../../middlewares/authmiddleware";
 import { userRegistrationValidator } from "../../validators/uservalidator";
 
 class UserController extends Controller {
@@ -16,9 +15,42 @@ class UserController extends Controller {
   }
 
   protected mapRoute() {
+    this.router.get("/", authorize, this.getUsers);
+    this.router.get("/:userId", authorize, this.getUser);
     this.router.post("/register", userRegistrationValidator, this.register);
   }
 
+  /**
+   * get user
+   */
+  private getUser = async (req: Request, res: Response) => {
+    try {
+      return res.status(httpStatus.OK).json({ data: req.user } as ApiResult);
+    } catch (e) {
+      logger.error(JSON.stringify(e));
+      return res
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .json({ errors: "Server Error" } as ApiResult);
+    }
+  };
+
+  /**
+   * get all users
+   */
+  private getUsers = async (req: Request, res: Response) => {
+    try {
+      return res.status(httpStatus.OK).json({ data: req.user } as ApiResult);
+    } catch (e) {
+      logger.error(JSON.stringify(e));
+      return res
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .json({ errors: "Server Error" } as ApiResult);
+    }
+  };
+
+  /**
+   * register a user
+   */
   private register = async (req: Request, res: Response) => {
     const errors = this.validationResult(req);
     if (errors.length) {
@@ -37,8 +69,10 @@ class UserController extends Controller {
         password,
       });
 
-      // try registering the user and get status
-      const [status, error] = await userService.register(user);
+      // try register the user and get token
+      const result = await userService.register(user);
+      const { status, error, token } = result;
+
       if (!status) {
         logger.error(
           `Registration failed for ${email}, reason ${JSON.stringify(error)}`
@@ -48,27 +82,10 @@ class UserController extends Controller {
           .json({ errors: [error] } as ApiResult);
       }
 
-      // generate jwt token
-      const payload = {
-        user: {
-          id: user.id,
-        },
-      };
-
-      const secret: Secret = config.get("auth.jwtTokenSecret");
-      const expiresIn: number = config.get("auth.tokenExpiresInSeconds");
-
-      jwt.sign(payload, secret, { expiresIn: expiresIn }, (err, token) => {
-        if (err) {
-          throw err;
-        }
-
-        logger.info(`User registration completed for user with email ${email}`);
-        return res.status(httpStatus.OK).json({ token: token } as ApiResult);
-      });
-
-      return null;
-    } catch {
+      logger.info(`User registration sucessful for user ${email}`);
+      return res.status(httpStatus.OK).json({ token: token } as ApiResult);
+    } catch (e) {
+      logger.error(JSON.stringify(e));
       return res
         .status(httpStatus.INTERNAL_SERVER_ERROR)
         .json({ errors: "Server Error" } as ApiResult);
