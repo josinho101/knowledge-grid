@@ -1,9 +1,21 @@
+import mongoose from "mongoose";
 import Error from "../models/error";
 import Hasher from "../helpers/hasher";
 import User, { IUser } from "../models/User";
 import TokenGenerator from "../helpers/tokengenerator";
 
 class UserService {
+  /**
+   * get user by id
+   */
+  public getUserById = async (id: string) => {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return null;
+    }
+
+    return await User.findById({ _id: id });
+  };
+
   /**
    * login a user
    * @param user user object from request
@@ -82,8 +94,7 @@ class UserService {
    * @param email email id
    */
   private getUserByEmail = async (email: string) => {
-    let user = await User.findOne({ email });
-    return user;
+    return await User.findOne({ email });
   };
 }
 

@@ -25,7 +25,15 @@ class UserController extends Controller {
    */
   private getUser = async (req: Request, res: Response) => {
     try {
-      return res.status(httpStatus.OK).json({ data: req.user } as ApiResult);
+      const userId = req.params["userId"];
+      const user = await userService.getUserById(userId);
+      if (!user) {
+        return res
+          .status(httpStatus.NOT_FOUND)
+          .json({ errors: `User not found with id ${userId}` } as ApiResult);
+      }
+
+      return res.status(httpStatus.OK).json({ data: user } as ApiResult);
     } catch (e) {
       logger.error(JSON.stringify(e));
       return res

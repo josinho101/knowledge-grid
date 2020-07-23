@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
   firstname: { type: String, required: true },
   lastname: { type: String },
   email: { type: String, unique: true, required: true },
-  password: { type: String, required: true },
+  password: { type: String, required: true, select: false },
   created_date: { type: Date, default: Date.now() },
 });
 
