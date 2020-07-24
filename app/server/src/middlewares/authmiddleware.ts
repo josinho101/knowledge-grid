@@ -1,4 +1,5 @@
 import Error from "../models/error";
+import logger from "../utils/logger";
 import { NextFunction } from "express";
 import httpStatus from "http-status-codes";
 import ApiResult from "../models/ApiResult";
@@ -9,16 +10,17 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.header("x-auth-token");
     if (!token) {
-      throw new window.Error();
+      throw new Error();
     }
 
     const decoded: any = await TokenGenerator.verify(token);
     if (decoded) {
-      req.user = decoded?.user;
+      req.user = decoded.user;
     }
 
     return next();
   } catch (e) {
+    logger.error(JSON.stringify(e));
     let error: Error = { message: "Invalid token" };
     return res
       .status(httpStatus.UNAUTHORIZED)
