@@ -12,6 +12,10 @@ class TokenGenerator {
   public static decode = (token: string) => {
     return jwt.decode(token, config.get("auth.jwtTokenSecret"));
   };
+
+  public static verify = async (token: string) => {
+    return jwt.verify(token, config.get("auth.jwtTokenSecret"));
+  };
 }
 
 export default TokenGenerator;

@@ -5,18 +5,16 @@ import ApiResult from "../models/ApiResult";
 import { Request, Response } from "../types/express";
 import TokenGenerator from "../helpers/tokengenerator";
 
-const auth = (req: Request, res: Response, next: NextFunction) => {
+const auth = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.header("x-auth-token");
     if (!token) {
       throw new window.Error();
     }
 
-    const decoded = TokenGenerator.decode(token);
+    const decoded: any = await TokenGenerator.verify(token);
     if (decoded) {
       req.user = decoded?.user;
-    } else {
-      throw new window.Error();
     }
 
     return next();
