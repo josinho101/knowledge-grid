@@ -4,11 +4,52 @@ import Error from "../models/error";
 import Hasher from "../helpers/hasher";
 import User, { IUser } from "../models/User";
 import TokenGenerator from "../helpers/tokengenerator";
+import { UserProps } from "../validators/uservalidator";
 
 class UserService {
+  /**
+   * update a user
+   * @param user user object from request
+   */
+  public update = async (user: IUser) => {
+    let status = false;
+    let error: Error = {};
+    let failureMessage = "User not found";
+
+    try {
+      if (!mongoose.Types.ObjectId.isValid(user.id)) {
+        throw window.Error(failureMessage);
+      }
+
+      const dbUser = await this.getById(user._id);
+
+      if (!dbUser) {
+        error.message = failureMessage;
+      } else {
+        await User.findByIdAndUpdate(
+          { _id: user._id },
+          {
+            firstname: user.firstname,
+            lastname: user.lastname,
+            updated_date: user.updated_date,
+          }
+        );
+        status = true;
+      }
+    } catch (e) {
+      error.message = e.message;
+    }
+
+    return { status, error };
+  };
+
+  /**
+   * delete a user
+   * @param id user id
+   */
   public delete = async (id: string) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      throw window.Error("Invalid Id");
+      throw window.Error("Invalid user id");
     }
 
     await User.findByIdAndUpdate({ _id: id }, { status: enums.status.deleted });
@@ -16,8 +57,8 @@ class UserService {
 
   public getAll = async () => {
     return await User.find({ status: enums.status.active })
-      .select("-password")
-      .sort("firstname")
+      .select(`-${UserProps.PASSWORD}`)
+      .sort(UserProps.FIRSTNAME)
       .limit(3)
       .skip(0);
   };
@@ -30,8 +71,8 @@ class UserService {
       return null;
     }
 
-    return await User.findById({ _id: id, status: enums.status.active }).select(
-      "-password"
+    return await User.findOne({ _id: id, status: enums.status.active }).select(
+      `-${UserProps.PASSWORD}`
     );
   };
 
@@ -78,6 +119,7 @@ class UserService {
       // hash user password
       user.password = await Hasher.hash(user.password);
       user.status = enums.status.active;
+      user.created_date = new Date();
       // save user and generate token
       await user.save();
       token = this.generateToken(user);

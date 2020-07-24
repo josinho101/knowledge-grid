@@ -8,6 +8,8 @@ export interface IUser extends mongoose.Document {
   email: string;
   password: string;
   status: enums.status;
+  created_date: Date;
+  updated_date: Date;
 }
 
 const UserSchema = new mongoose.Schema({
@@ -15,7 +17,7 @@ const UserSchema = new mongoose.Schema({
   lastname: { type: String },
   password: { type: String, required: true },
   email: { type: String, unique: true, required: true },
-  created_date: { type: Date, default: Date.now() },
+  created_date: { type: Date },
   updated_date: { type: Date, default: Date.now() },
   status: { type: Number, select: false, default: enums.status.none },
 });

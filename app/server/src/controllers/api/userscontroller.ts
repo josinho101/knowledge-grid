@@ -6,7 +6,10 @@ import ApiResult from "../../models/ApiResult";
 import userService from "../../services/userservice";
 import { Request, Response } from "../../types/express";
 import authorize from "../../middlewares/authmiddleware";
-import { registrationValidator } from "../../validators/uservalidator";
+import {
+  registrationValidator,
+  updateValidator,
+} from "../../validators/uservalidator";
 
 class UsersController extends Controller {
   constructor() {
@@ -19,7 +22,53 @@ class UsersController extends Controller {
     this.router.get("/:userId", authorize, this.getById);
     this.router.delete("/:userId", authorize, this.delete);
     this.router.post("/register", registrationValidator, this.post);
+    this.router.put("/:userId", authorize, updateValidator, this.put);
   }
+
+  /**
+   * update user
+   */
+  private put = async (req: Request, res: Response) => {
+    try {
+      const errors = this.validationResult(req);
+      if (errors.length) {
+        return res
+          .status(httpStatus.BAD_REQUEST)
+          .json({ errors: errors } as ApiResult);
+      }
+
+      const userId = req.params["userId"];
+      const { firstname, lastname } = req.body;
+
+      let user = new User({
+        firstname,
+        lastname,
+        _id: userId,
+      });
+
+      const result = await userService.update(user);
+
+      if (!result.status) {
+        return res
+          .status(httpStatus.NOT_FOUND)
+          .json({ error: [result.error] } as ApiResult);
+      }
+
+      logger.info(
+        `Update request for user ${JSON.stringify(user)}, initiated by ${
+          req.user?.id
+        }`
+      );
+      return res
+        .status(httpStatus.OK)
+        .json({ data: "User updated" } as ApiResult);
+    } catch (e) {
+      logger.error(JSON.stringify(e));
+      return res
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .json({ errors: "Server Error" } as ApiResult);
+    }
+  };
 
   /**
    * get user
