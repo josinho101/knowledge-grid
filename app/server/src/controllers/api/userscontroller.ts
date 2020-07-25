@@ -96,7 +96,10 @@ class UsersController extends Controller {
    */
   private get = async (req: Request, res: Response) => {
     try {
-      const users = await userService.getAll();
+      let page: number = parseInt(req.query.page as string);
+      let limit: number = parseInt(req.query.limit as string);
+
+      const users = await userService.getAll(page, limit);
       return res.status(httpStatus.OK).json({ data: users } as ApiResult);
     } catch (e) {
       logger.error(JSON.stringify(e));

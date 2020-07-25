@@ -1,3 +1,4 @@
+import config from "config";
 import mongoose from "mongoose";
 import * as enums from "../enums";
 import Error from "../models/error";
@@ -55,12 +56,27 @@ class UserService {
     await User.findByIdAndUpdate({ _id: id }, { status: enums.status.deleted });
   };
 
-  public getAll = async () => {
+  public getAll = async (page: number, limit: number) => {
+    const defaultPageLimit: number = config.get("pagination.defaultPageLimit");
+    const maxPageLimit: number = config.get("pagination.maxPageLimit");
+
+    if (isNaN(page) || page < 1) {
+      page = 1;
+    }
+
+    if (isNaN(limit) || limit < 1) {
+      limit = defaultPageLimit;
+    }
+
+    if (limit > maxPageLimit) {
+      limit = maxPageLimit;
+    }
+
     return await User.find({ status: enums.status.active })
       .select(`-${UserProps.PASSWORD}`)
       .sort(UserProps.FIRSTNAME)
-      .limit(3)
-      .skip(0);
+      .limit(limit)
+      .skip((page - 1) * limit);
   };
 
   /**
@@ -94,13 +110,15 @@ class UserService {
 
       if (!isMatch) {
         error.message = loginFailureMessage;
+        dbUser = null;
       } else {
+        dbUser.password = "";
         token = this.generateToken(dbUser);
         status = true;
       }
     }
 
-    return { status, error, token };
+    return { status, error, token, dbUser };
   };
 
   /**

@@ -7,6 +7,10 @@
     "jwtTokenSecret": "secret",
     "tokenExpiresInSeconds": 3600
   },
+  "pagination": {
+    "defaultPageLimit": 10,
+    "maxPageLimit": 100
+  },
   "port": 3001,
   "dbURI": "mongodb+srv://dbuser:Computer1@cluster0.ofpbh.mongodb.net/CLuster0?retryWrites=true&w=majority"
 }

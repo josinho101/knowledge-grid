@@ -34,7 +34,7 @@ class AuthController extends Controller {
 
     try {
       const result = await userService.login(user);
-      const { status, error, token } = result;
+      const { status, error, token, dbUser } = result;
 
       if (!status) {
         logger.error(
@@ -46,7 +46,7 @@ class AuthController extends Controller {
       }
 
       logger.info(`User login sucessful for user ${email}`);
-      return res.status(httpStatus.OK).json({ token: token });
+      return res.status(httpStatus.OK).json({ user: dbUser, token: token });
     } catch (e) {
       logger.error(JSON.stringify(e));
       return res
