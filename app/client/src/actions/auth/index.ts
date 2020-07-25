@@ -1,8 +1,8 @@
-import urls from "../urls";
 import Base from "../base";
-import config from "config";
+import * as urls from "../urls";
 import { Dispatch } from "react";
 import { AuthState } from "../../reducers/auth";
+import * as settings from "../../appsettings.json";
 import RequestHandler from "../../utils/requesthandler";
 
 /**
@@ -27,7 +27,7 @@ export const login = (email: string, password: string) => {
       payload: undefined!,
     });
 
-    const url = config.get("baseUrl") + urls.LOGIN;
+    const url = settings.baseUrl + urls.LOGIN;
     const response = await RequestHandler.post(url, {
       email: email,
       password: password,
