@@ -39,15 +39,19 @@ export const login = (email: string, password: string) => {
       dispatch({
         type: Types.LOGIN_SUCCESS,
         payload: {
-          isAuthenticated: true,
-          token: data.token,
           user: data.user,
+          token: data.token,
+          isAuthenticated: true,
         },
       });
     } else {
       dispatch({
         type: Types.LOGIN_FAILED,
-        payload: undefined!,
+        payload: {
+          isAuthenticated: false,
+          error:
+            "Invalid username or password. Failed to authenticate with this username password combination.",
+        },
       });
     }
   };

@@ -1,7 +1,10 @@
+import * as KeyCode from "keycode-js";
 import { connect } from "react-redux";
 import Anchor from "../common/anchor";
 import Textbox from "../common/textbox";
 import Checkbox from "../common/checkbox";
+import { useSelector } from "react-redux";
+import { AppState } from "../../reducers";
 import { login } from "../../actions/auth";
 import React, { useEffect, useState } from "react";
 
@@ -10,6 +13,7 @@ interface Props {
 }
 
 const Login: React.FunctionComponent<Props> = (props) => {
+  const error = useSelector((state: AppState) => state.auth.error);
   const [email, setEmail] = useState("");
   const [passwrod, setPassword] = useState("");
 
@@ -29,7 +33,21 @@ const Login: React.FunctionComponent<Props> = (props) => {
   };
 
   const onLoginClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    login();
+  };
+
+  const onKeydown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.keyCode === KeyCode.KEY_RETURN) {
+      login();
+    }
+  };
+
+  const login = () => {
     props.login(email, passwrod);
+  };
+
+  const renderAuthError = () => {
+    return error ? <label>{error}</label> : null;
   };
 
   return (
@@ -41,7 +59,7 @@ const Login: React.FunctionComponent<Props> = (props) => {
               <div className="row">
                 <div className="col-lg-6 d-none d-lg-block bg-login-image" />
                 <div className="col-lg-6">
-                  <div className="p-5">
+                  <div className="p-5" onKeyDown={onKeydown}>
                     <div className="text-center">
                       <h1 className="h4 text-gray-900 mb-4">
                         Login to Sentinel
@@ -84,7 +102,7 @@ const Login: React.FunctionComponent<Props> = (props) => {
                     />
                     <div className="form-group mb-0 mt-2">
                       <div className="small error-display">
-                        <label>Invalid username or password.</label>
+                        {renderAuthError()}
                       </div>
                     </div>
                   </div>

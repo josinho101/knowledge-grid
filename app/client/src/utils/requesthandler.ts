@@ -10,6 +10,7 @@ export default class RequestHandler {
       return await axios.get(url);
     } catch (e) {
       console.error(e);
+      return e.response;
     }
   };
 
@@ -23,6 +24,7 @@ export default class RequestHandler {
       return await axios.post(url, data);
     } catch (e) {
       console.error(e);
+      return e.response;
     }
   };
 }
