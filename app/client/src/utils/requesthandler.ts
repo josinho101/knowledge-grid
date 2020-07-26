@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 export default class RequestHandler {
   /**
@@ -7,7 +7,7 @@ export default class RequestHandler {
    */
   public static get = async (url: string) => {
     try {
-      const response = await axios.get(url);
+      return await axios.get(url);
     } catch (e) {
       console.error(e);
     }

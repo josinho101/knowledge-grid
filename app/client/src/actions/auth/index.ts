@@ -1,6 +1,7 @@
 import Base from "../base";
 import * as urls from "../urls";
 import { Dispatch } from "react";
+import httpStatus from "http-status-codes";
 import { AuthState } from "../../reducers/auth";
 import * as settings from "../../appsettings.json";
 import RequestHandler from "../../utils/requesthandler";
@@ -33,10 +34,15 @@ export const login = (email: string, password: string) => {
       password: password,
     });
 
-    if (response !== null) {
+    if (response?.status === httpStatus.OK) {
+      const data = response.data;
       dispatch({
         type: Types.LOGIN_SUCCESS,
-        payload: undefined!,
+        payload: {
+          isAuthenticated: true,
+          token: data.token,
+          user: data.user,
+        },
       });
     } else {
       dispatch({

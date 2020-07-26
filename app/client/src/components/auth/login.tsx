@@ -1,12 +1,36 @@
-import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import Anchor from "../common/anchor";
+import Textbox from "../common/textbox";
+import Checkbox from "../common/checkbox";
+import { login } from "../../actions/auth";
+import React, { useEffect, useState } from "react";
 
-const Login: React.FunctionComponent = () => {
+interface Props {
+  login: (email: string, password: string) => void;
+}
+
+const Login: React.FunctionComponent<Props> = (props) => {
+  const [email, setEmail] = useState("");
+  const [passwrod, setPassword] = useState("");
+
   useEffect(() => {
     document.body.classList.add("bg-gradient-grey");
     return () => {
       document.body.classList.remove("bg-gradient-grey");
     };
   });
+
+  const onEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const onPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const onLoginClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    props.login(email, passwrod);
+  };
 
   return (
     <div className="container">
@@ -23,48 +47,44 @@ const Login: React.FunctionComponent = () => {
                         Login to Sentinel
                       </h1>
                     </div>
-                    <div className="user">
-                      <div className="form-group">
-                        <input
-                          type="email"
-                          className="form-control form-control-user"
-                          id="username"
-                          placeholder="Email"
+                    <div className="form-group">
+                      <Textbox
+                        id="email"
+                        type="email"
+                        placeholder="Email"
+                        onChange={onEmailChange}
+                        className="form-control form-control-user"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <Textbox
+                        id="password"
+                        type="password"
+                        placeholder="Password"
+                        onChange={onPasswordChange}
+                        className="form-control form-control-user"
+                      />
+                    </div>
+                    <div className="form-group">
+                      <div className="custom-control custom-checkbox small">
+                        <Checkbox
+                          id="rememberMe"
+                          label="Remember Me"
+                          className="custom-control-input"
+                          labelClassName="custom-control-label"
                         />
                       </div>
-                      <div className="form-group">
-                        <input
-                          type="password"
-                          className="form-control form-control-user"
-                          id="password"
-                          placeholder="Password"
-                        />
-                      </div>
-                      <div className="form-group">
-                        <div className="custom-control custom-checkbox small">
-                          <input
-                            type="checkbox"
-                            className="custom-control-input"
-                            id="customCheck"
-                          />
-                          <label
-                            className="custom-control-label"
-                            htmlFor="customCheck"
-                          >
-                            Remember Me
-                          </label>
-                        </div>
-                      </div>
-                      <a
-                        href="#"
-                        className="btn btn-primary btn-user btn-block"
-                      >
-                        Login
-                      </a>
-                      <div className="form-group mb-0 mt-2">
-                        <div className="small error-display">
-                          <label>Invalid username or password.</label>
-                        </div>
+                    </div>
+                    <Anchor
+                      href="#"
+                      id="login"
+                      text="Login"
+                      onClick={onLoginClick}
+                      className="btn btn-primary btn-user btn-block"
+                    />
+                    <div className="form-group mb-0 mt-2">
+                      <div className="small error-display">
+                        <label>Invalid username or password.</label>
                       </div>
                     </div>
                   </div>
@@ -78,4 +98,8 @@ const Login: React.FunctionComponent = () => {
   );
 };
 
-export default Login;
+const mapDispatchToProps = {
+  login,
+};
+
+export default connect(null, mapDispatchToProps)(Login);
