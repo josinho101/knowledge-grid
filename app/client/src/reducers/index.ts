@@ -1,10 +1,13 @@
+import auth, { Auth } from "./auth";
 import { combineReducers } from "redux";
-import auth, { AuthState } from "./auth";
+import locale, { Locale } from "./locale";
 
 export interface AppState {
-  auth: AuthState;
+  auth: Auth;
+  locale: Locale;
 }
 
 export default combineReducers<AppState>({
   auth,
+  locale,
 });

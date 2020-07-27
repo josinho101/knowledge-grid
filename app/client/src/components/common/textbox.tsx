@@ -13,8 +13,7 @@ const Textbox: React.FunctionComponent<Props> = (props) => {
   const { id, type, className, placeholder } = props;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const event: any = e;
-    setValue(event.target.value);
+    setValue(e.target.value);
 
     if (props.onChange) {
       props.onChange(e);

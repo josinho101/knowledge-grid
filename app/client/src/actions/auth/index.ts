@@ -2,8 +2,9 @@ import Base from "../base";
 import * as urls from "../urls";
 import { Dispatch } from "react";
 import httpStatus from "http-status-codes";
-import { AuthState } from "../../reducers/auth";
+import { Auth } from "../../reducers/auth";
 import * as settings from "../../appsettings.json";
+import localeHelper from "../../utils/localehelper";
 import RequestHandler from "../../utils/requesthandler";
 
 /**
@@ -18,7 +19,7 @@ export enum Types {
 /* Auth action */
 export interface AuthAction extends Base {
   type: Types;
-  payload: AuthState;
+  payload: Auth;
 }
 
 export const login = (email: string, password: string) => {
@@ -49,8 +50,7 @@ export const login = (email: string, password: string) => {
         type: Types.LOGIN_FAILED,
         payload: {
           isAuthenticated: false,
-          error:
-            "Invalid username or password. Failed to authenticate with this username password combination.",
+          error: localeHelper.translate("login.failure-message"),
         },
       });
     }

@@ -1,0 +1,12 @@
+{
+  "login": {
+    "title": "Login to Sentinel",
+    "controls": {
+      "email-field": "Email",
+      "password-field": "Password",
+      "remember-me": "Remember Me",
+      "login-button": "Login"
+    },
+    "failure-message": "Invalid username or password. Failed to authenticate with this username password combination."
+  }
+}

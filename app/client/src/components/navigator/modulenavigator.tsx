@@ -1,20 +1,45 @@
-import React from "react";
 import Login from "../auth/login";
 import ContentWrapper from "../wrapper";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
 import { AppState } from "../../reducers";
 import Header from "../../components/header";
+import { useSelector, connect } from "react-redux";
+import { loadLocaleFile } from "../../actions/locale";
 
-const ModuleNavigator: React.FunctionComponent = () => {
+interface Props {
+  loadLocaleFile: Function;
+}
+
+const ModuleNavigator: React.FunctionComponent<Props> = (props) => {
   const auth = useSelector((state: AppState) => state.auth);
-  return auth.token && auth.isAuthenticated ? (
-    <React.Fragment>
-      <Header />
-      <ContentWrapper />
-    </React.Fragment>
-  ) : (
-    <Login />
-  );
+  const langCode = useSelector((state: AppState) => state.locale.code);
+
+  const renderModules = () => {
+    if (langCode) {
+      if (auth.token && auth.isAuthenticated) {
+        return (
+          <React.Fragment>
+            <Header />
+            <ContentWrapper />
+          </React.Fragment>
+        );
+      } else {
+        return <Login />;
+      }
+    }
+
+    return null;
+  };
+
+  useEffect(() => {
+    props.loadLocaleFile();
+  }, []);
+
+  return renderModules();
 };
 
-export default ModuleNavigator;
+const mapDispatchToProps = {
+  loadLocaleFile,
+};
+
+export default connect(null, mapDispatchToProps)(ModuleNavigator);
