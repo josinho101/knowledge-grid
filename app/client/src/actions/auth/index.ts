@@ -53,7 +53,7 @@ export const login = (email: string, password: string) => {
         type: Types.LOGIN_FAILED,
         payload: {
           status: enums.AuthStatus.failed,
-          error: localeHelper.translate("login.failure-message"),
+          error: localeHelper.translate("auth.login.failure-message"),
         },
       });
     }

@@ -76,7 +76,7 @@ const Login: React.FunctionComponent<Props> = (props) => {
                   <div className="p-5" onKeyDown={onKeydown}>
                     <div className="text-center">
                       <h1 className="h4 text-gray-900 mb-4">
-                        {localeHelper.translate("login.title")}
+                        {localeHelper.translate("auth.login.title")}
                       </h1>
                     </div>
                     <div className="form-group">
@@ -84,7 +84,7 @@ const Login: React.FunctionComponent<Props> = (props) => {
                         id="email"
                         type="email"
                         placeholder={localeHelper.translate(
-                          "login.controls.email-field"
+                          "auth.login.controls.email-field"
                         )}
                         onChange={onEmailChange}
                         className="form-control form-control-user"
@@ -95,7 +95,7 @@ const Login: React.FunctionComponent<Props> = (props) => {
                         id="password"
                         type="password"
                         placeholder={localeHelper.translate(
-                          "login.controls.password-field"
+                          "auth.login.controls.password-field"
                         )}
                         onChange={onPasswordChange}
                         className="form-control form-control-user"
@@ -106,7 +106,7 @@ const Login: React.FunctionComponent<Props> = (props) => {
                         <Checkbox
                           id="rememberMe"
                           label={localeHelper.translate(
-                            "login.controls.remember-me"
+                            "auth.login.controls.remember-me"
                           )}
                           className="custom-control-input"
                           labelClassName="custom-control-label"
@@ -117,7 +117,7 @@ const Login: React.FunctionComponent<Props> = (props) => {
                       href="#"
                       id="login"
                       text={localeHelper.translate(
-                        "login.controls.login-button"
+                        "auth.login.controls.login-button"
                       )}
                       onClick={onLoginClick}
                       className="btn btn-primary btn-user btn-block"
