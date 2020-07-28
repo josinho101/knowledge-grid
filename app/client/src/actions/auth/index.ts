@@ -1,6 +1,7 @@
 import Base from "../base";
 import * as urls from "../urls";
 import { Dispatch } from "react";
+import * as enums from "../../enums";
 import httpStatus from "http-status-codes";
 import { Auth } from "../../reducers/auth";
 import * as settings from "../../appsettings.json";
@@ -26,7 +27,9 @@ export const login = (email: string, password: string) => {
   return async (dispatch: Dispatch<AuthAction>) => {
     dispatch({
       type: Types.LOGIN_INITIATED,
-      payload: undefined!,
+      payload: {
+        status: enums.AuthStatus.initiated,
+      },
     });
 
     const url = settings.baseUrl + urls.LOGIN;
@@ -42,14 +45,14 @@ export const login = (email: string, password: string) => {
         payload: {
           user: data.user,
           token: data.token,
-          isAuthenticated: true,
+          status: enums.AuthStatus.success,
         },
       });
     } else {
       dispatch({
         type: Types.LOGIN_FAILED,
         payload: {
-          isAuthenticated: false,
+          status: enums.AuthStatus.failed,
           error: localeHelper.translate("login.failure-message"),
         },
       });

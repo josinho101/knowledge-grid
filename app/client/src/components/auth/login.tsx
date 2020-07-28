@@ -1,6 +1,8 @@
+import * as enums from "../../enums";
 import * as KeyCode from "keycode-js";
 import { connect } from "react-redux";
 import Anchor from "../common/anchor";
+import Spinner from "../common/spinner";
 import Textbox from "../common/textbox";
 import Checkbox from "../common/checkbox";
 import { useSelector } from "react-redux";
@@ -15,6 +17,7 @@ interface Props {
 
 const Login: React.FunctionComponent<Props> = (props) => {
   const error = useSelector((state: AppState) => state.auth.error);
+  const status = useSelector((state: AppState) => state.auth.status);
   const [email, setEmail] = useState("");
   const [passwrod, setPassword] = useState("");
 
@@ -47,8 +50,18 @@ const Login: React.FunctionComponent<Props> = (props) => {
     props.login(email, passwrod);
   };
 
-  const renderAuthError = () => {
-    return error ? <label>{error}</label> : null;
+  const renderAuthStatus = () => {
+    let component = null;
+    switch (status) {
+      case enums.AuthStatus.failed:
+        component = <label>{error}</label>;
+        break;
+      case enums.AuthStatus.initiated:
+        component = <Spinner color="blue" size="small" id="login-spinner" />;
+        break;
+    }
+
+    return component;
   };
 
   return (
@@ -111,7 +124,7 @@ const Login: React.FunctionComponent<Props> = (props) => {
                     />
                     <div className="form-group mb-0 mt-2">
                       <div className="small error-display">
-                        {renderAuthError()}
+                        {renderAuthStatus()}
                       </div>
                     </div>
                   </div>

@@ -1,4 +1,5 @@
 import Login from "../auth/login";
+import * as enums from "../../enums";
 import ContentWrapper from "../wrapper";
 import React, { useEffect } from "react";
 import { AppState } from "../../reducers";
@@ -16,7 +17,7 @@ const ModuleNavigator: React.FunctionComponent<Props> = (props) => {
 
   const renderModules = () => {
     if (langCode) {
-      if (auth.token && auth.isAuthenticated) {
+      if (auth.token && auth.status === enums.AuthStatus.success) {
         return (
           <React.Fragment>
             <Header />

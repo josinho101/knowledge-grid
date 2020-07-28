@@ -1,3 +1,4 @@
+import * as enums from "../enums";
 import IUser from "../models/user";
 import { Types, AuthAction } from "../actions/auth";
 
@@ -8,7 +9,7 @@ export interface Auth {
   user?: IUser;
   token?: string;
   error?: string;
-  isAuthenticated: boolean;
+  status: enums.AuthStatus;
 }
 
 /**
@@ -18,26 +19,32 @@ const initialState: Auth = {
   user: undefined,
   token: undefined,
   error: undefined,
-  isAuthenticated: false,
+  status: enums.AuthStatus.none,
 };
 
 export default (state: Auth = initialState, action: AuthAction): Auth => {
   const { payload } = action;
   switch (action.type) {
+    case Types.LOGIN_INITIATED: {
+      return {
+        ...state,
+        status: enums.AuthStatus.initiated,
+      };
+    }
     case Types.LOGIN_SUCCESS: {
       return {
         ...state,
         error: undefined,
         user: payload.user,
         token: payload.token,
-        isAuthenticated: true,
+        status: enums.AuthStatus.success,
       };
     }
     case Types.LOGIN_FAILED: {
       return {
         ...state,
         error: payload.error,
-        isAuthenticated: false,
+        status: enums.AuthStatus.failed,
       };
     }
     default:

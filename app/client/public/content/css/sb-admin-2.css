@@ -11430,3 +11430,16 @@ body.sidebar-toggled footer.sticky-footer {
   height: 5px;
   color: red;
 }
+
+.spinner-margin {  
+  margin-right: 5px !important;
+}
+
+.spinner-grow-very-sm {
+  width: 0.5rem !important;
+  height: 0.5rem !important;
+}
+
+.spinner-wrapper {
+  text-align: center;
+}
