@@ -9,6 +9,17 @@
         "login-button": "Login"
       },
       "failure-message": "Invalid username or password. Failed to authenticate with this username password combination."
+    },
+    "logout-modal": {
+      "cancel-button": "Cancel",
+      "logout-button": "Logout",
+      "message-title": "Ready to leave?",
+      "message-content": "Select 'Logout' option if you are ready to end your current session."
+    }
+  },
+  "user-widget": {
+    "menu": {
+      "logout": "Logout"
     }
   }
 }

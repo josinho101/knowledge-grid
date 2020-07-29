@@ -47,6 +47,15 @@ export default (state: Auth = initialState, action: AuthAction): Auth => {
         status: enums.AuthStatus.failed,
       };
     }
+    case Types.LOGOUT: {
+      return {
+        ...state,
+        error: initialState.error,
+        user: initialState.user,
+        token: initialState.token,
+        status: enums.AuthStatus.none,
+      };
+    }
     default:
       return state;
   }

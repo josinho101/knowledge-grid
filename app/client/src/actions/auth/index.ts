@@ -15,6 +15,7 @@ export enum Types {
   LOGIN_INITIATED = "LOGIN_INITIATED",
   LOGIN_SUCCESS = "LOGIN_SUCCESS",
   LOGIN_FAILED = "LOGIN_FAILED",
+  LOGOUT = "LOGOUT",
 }
 
 /* Auth action */
@@ -57,5 +58,14 @@ export const login = (email: string, password: string) => {
         },
       });
     }
+  };
+};
+
+export const logout = () => {
+  return async (dispatch: Dispatch<AuthAction>) => {
+    dispatch({
+      type: Types.LOGOUT,
+      payload: undefined!,
+    });
   };
 };

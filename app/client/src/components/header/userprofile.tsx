@@ -1,12 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
+import { AppState } from "../../reducers";
+import { logout } from "../../actions/auth";
+import { connect, useSelector } from "react-redux";
+import localeHelper from "../../utils/localehelper";
+import ConfirmationModal from "../common/confirmationmodal";
 import profileIcon from "../../assets/images/dummy-user.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface Props {
-  displayName: string;
+  logout: Function;
 }
 
 const UserProfile: React.FunctionComponent<Props> = (props) => {
+  const user = useSelector((state: AppState) => state.auth.user);
+  const [doShowLogoutModal, setLogoutModalDisplay] = useState(false);
+
+  const onCancelLogoutClick = (
+    e: React.MouseEvent<HTMLElement, MouseEvent>
+  ) => {
+    setLogoutModalDisplay(false);
+  };
+
+  const onLogoutClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    setLogoutModalDisplay(false);
+    props.logout();
+  };
+
+  const onLogoutMenuClick = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => {
+    setLogoutModalDisplay(true);
+  };
+
   return (
     <ul className="navbar-nav ml-auto">
       <li className="nav-item dropdown no-arrow">
@@ -20,7 +45,7 @@ const UserProfile: React.FunctionComponent<Props> = (props) => {
           aria-expanded="false"
         >
           <span className="mr-2 d-none d-lg-inline text-white-600 small">
-            {props.displayName}
+            {`${user?.firstname} ${user?.lastname}`}
           </span>
           <img className="img-profile rounded-circle" src={profileIcon} />
         </a>
@@ -33,17 +58,39 @@ const UserProfile: React.FunctionComponent<Props> = (props) => {
             href="#"
             data-toggle="modal"
             data-target="#logoutModal"
+            onClick={onLogoutMenuClick}
           >
             <FontAwesomeIcon
               icon={["fas", "sign-out-alt"]}
               className="fa-fw mr-2 text-gray-400"
             />
-            Logout
+            {localeHelper.translate("user-widget.menu.logout")}
           </a>
+          <ConfirmationModal
+            id="logout-modal"
+            isOpen={doShowLogoutModal}
+            content={localeHelper.translate(
+              "auth.logout-modal.message-content"
+            )}
+            primaryButtonText={localeHelper.translate(
+              "auth.logout-modal.logout-button"
+            )}
+            secondaryButtonText={localeHelper.translate(
+              "auth.logout-modal.cancel-button"
+            )}
+            closeButtonClickHandler={onCancelLogoutClick}
+            primaryButtonClickHandler={onLogoutClick}
+            secondaryButtonClickHandler={onCancelLogoutClick}
+            title={localeHelper.translate("auth.logout-modal.message-title")}
+          />
         </div>
       </li>
     </ul>
   );
 };
 
-export default UserProfile;
+const mapDispatchToProps = {
+  logout,
+};
+
+export default connect(null, mapDispatchToProps)(UserProfile);

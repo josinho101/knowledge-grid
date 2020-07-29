@@ -19,7 +19,7 @@ const Header: React.FunctionComponent = () => {
             className="fa-fw mr-2 text-gray-400"
           />
         </button>
-        <UserProfile displayName={"John Honai"} />
+        <UserProfile />
       </nav>
     </header>
   );
