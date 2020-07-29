@@ -1,5 +1,7 @@
 import * as enums from "../enums";
 import IUser from "../models/user";
+import * as constants from "../constants";
+import StorageHelper from "../utils/storagehelper";
 import { Types, AuthAction } from "../actions/auth";
 
 /**
@@ -10,16 +12,20 @@ export interface Auth {
   token?: string;
   error?: string;
   status: enums.AuthStatus;
+  doRetryAuth?: boolean;
 }
+
+const auth = StorageHelper.get(constants.Keys.AUTH);
 
 /**
  * initial auth state
  */
 const initialState: Auth = {
-  user: undefined,
-  token: undefined,
-  error: undefined,
+  user: auth ? JSON.parse(auth).user : undefined!,
+  token: auth ? JSON.parse(auth).token : undefined,
+  doRetryAuth: auth !== null, // retry authentication if token loaded from storage
   status: enums.AuthStatus.none,
+  error: undefined,
 };
 
 export default (state: Auth = initialState, action: AuthAction): Auth => {
@@ -32,6 +38,11 @@ export default (state: Auth = initialState, action: AuthAction): Auth => {
       };
     }
     case Types.LOGIN_SUCCESS: {
+      let auth = {
+        user: payload.user,
+        token: payload.token,
+      };
+      StorageHelper.set(constants.Keys.AUTH, JSON.stringify(auth));
       return {
         ...state,
         error: undefined,
@@ -48,6 +59,7 @@ export default (state: Auth = initialState, action: AuthAction): Auth => {
       };
     }
     case Types.LOGOUT: {
+      StorageHelper.remove(constants.Keys.AUTH);
       return {
         ...state,
         error: initialState.error,
