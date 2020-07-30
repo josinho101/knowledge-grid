@@ -1,6 +1,7 @@
 import * as enums from "../enums";
 import IUser from "../models/user";
 import * as constants from "../constants";
+import * as settings from "../appsettings.json";
 import StorageHelper from "../utils/storagehelper";
 import { Types, AuthAction } from "../actions/auth";
 
@@ -13,6 +14,7 @@ export interface Auth {
   error?: string;
   status: enums.AuthStatus;
   doRetryAuth?: boolean;
+  retryCount?: number;
 }
 
 const auth = StorageHelper.get(constants.Keys.AUTH);
@@ -24,6 +26,7 @@ const initialState: Auth = {
   user: auth ? JSON.parse(auth).user : undefined!,
   token: auth ? JSON.parse(auth).token : undefined,
   doRetryAuth: auth !== null, // retry authentication if token loaded from storage
+  retryCount: 0,
   status: enums.AuthStatus.none,
   error: undefined,
 };
@@ -66,6 +69,20 @@ export default (state: Auth = initialState, action: AuthAction): Auth => {
         user: initialState.user,
         token: initialState.token,
         status: enums.AuthStatus.none,
+      };
+    }
+    case Types.RETRY_AUTH: {
+      const retryCount = action.payload.retryCount || 0;
+
+      if (retryCount > settings.authRetryCount) {
+        StorageHelper.remove(constants.Keys.AUTH);
+      }
+
+      return {
+        ...state,
+        doRetryAuth: action.payload.doRetryAuth,
+        retryCount: retryCount,
+        status: action.payload.status,
       };
     }
     default:

@@ -5,10 +5,12 @@ import React, { useEffect } from "react";
 import { AppState } from "../../reducers";
 import Header from "../../components/header";
 import { useSelector, connect } from "react-redux";
+import { retryAuth } from "../../actions/auth";
 import { loadLocaleFile } from "../../actions/locale";
 
 interface Props {
   loadLocaleFile: Function;
+  retryAuth: Function;
 }
 
 const ModuleNavigator: React.FunctionComponent<Props> = (props) => {
@@ -17,15 +19,21 @@ const ModuleNavigator: React.FunctionComponent<Props> = (props) => {
 
   const renderModules = () => {
     if (langCode) {
-      if (auth.token && auth.status === enums.AuthStatus.success) {
-        return (
-          <React.Fragment>
-            <Header />
-            <ContentWrapper />
-          </React.Fragment>
-        );
+      if (auth.doRetryAuth) {
+        // try authenticate token
+        let retryCount = auth.retryCount || 0;
+        props.retryAuth(auth.token, retryCount);
       } else {
-        return <Login />;
+        if (auth.token && auth.status === enums.AuthStatus.success) {
+          return (
+            <React.Fragment>
+              <Header />
+              <ContentWrapper />
+            </React.Fragment>
+          );
+        } else {
+          return <Login />;
+        }
       }
     }
 
@@ -41,6 +49,7 @@ const ModuleNavigator: React.FunctionComponent<Props> = (props) => {
 
 const mapDispatchToProps = {
   loadLocaleFile,
+  retryAuth,
 };
 
 export default connect(null, mapDispatchToProps)(ModuleNavigator);

@@ -15,6 +15,7 @@ export enum Types {
   LOGIN_INITIATED = "LOGIN_INITIATED",
   LOGIN_SUCCESS = "LOGIN_SUCCESS",
   LOGIN_FAILED = "LOGIN_FAILED",
+  RETRY_AUTH = "RETRY_AUTH",
   LOGOUT = "LOGOUT",
 }
 
@@ -23,6 +24,29 @@ export interface AuthAction extends Base {
   type: Types;
   payload: Auth;
 }
+
+export const retryAuth = (token: string, retryCount: number) => {
+  return async (dispatch: Dispatch<AuthAction>) => {
+    const url = settings.baseUrl + urls.PING;
+    const response = await RequestHandler.get(url, token);
+    const status =
+      response?.status === httpStatus.OK
+        ? enums.AuthStatus.success
+        : enums.AuthStatus.failed;
+    const doRetryAuth =
+      status === enums.AuthStatus.failed &&
+      retryCount < settings.authRetryCount;
+
+    dispatch({
+      type: Types.RETRY_AUTH,
+      payload: {
+        doRetryAuth: doRetryAuth,
+        retryCount: retryCount + 1,
+        status: status,
+      },
+    });
+  };
+};
 
 export const login = (email: string, password: string) => {
   return async (dispatch: Dispatch<AuthAction>) => {
