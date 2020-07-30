@@ -1,0 +1,187 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Sentinel",
+		"_postman_id": "25a7cd38-d04f-a94b-af14-e1ea42971979",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users & Auth",
+			"description": "",
+			"item": [
+				{
+					"name": "Register user",
+					"request": {
+						"url": "http://localhost:3001/api/users/register",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstname\":\"Joseph\",\n\t\"lastname\":\"J\",\n\t\"password\":\"Computer1\",\n\t\"email\":\"test1.seven@gmail.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"url": "http://localhost:3001/api/auth/login",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\":\"test1.seven@gmail.com\",\n\t\"password\":\"Computer1\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users",
+					"request": {
+						"url": {
+							"raw": "http://localhost:3001/api/users?page=1&limit=5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"equals": true,
+									"description": ""
+								},
+								{
+									"key": "limit",
+									"value": "5",
+									"equals": true,
+									"description": ""
+								}
+							],
+							"variable": []
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWYxOTllYjM2Njk0OTcyZTc0NWExZWY5IiwiZmlyc3RuYW1lIjoiSm9zZXBoIiwibGFzdG5hbWUiOiJKIn0sImlhdCI6MTU5NTU5NzQ1NCwiZXhwIjoxNTk1NjAxMDU0fQ.RAjUZOg6bM5biJHbjSmX2CkJYPtK2kp1RGYsef1BvE8",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get user",
+					"request": {
+						"url": "http://localhost:3001/api/users/5f199eb36694972e745a1ef9",
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWYxOTllYjM2Njk0OTcyZTc0NWExZWY5IiwiZmlyc3RuYW1lIjoiSm9zZXBoIiwibGFzdG5hbWUiOiJKIn0sImlhdCI6MTU5NTU5NzQ1NCwiZXhwIjoxNTk1NjAxMDU0fQ.RAjUZOg6bM5biJHbjSmX2CkJYPtK2kp1RGYsef1BvE8",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"url": "http://localhost:3001/api/users/5f199eb36694972e745a1ef9",
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWYxOTllYjM2Njk0OTcyZTc0NWExZWY5IiwiZmlyc3RuYW1lIjoiSm9zZXBoIiwibGFzdG5hbWUiOiJKIn0sImlhdCI6MTU5NTUxNDU0NywiZXhwIjoxNTk1NTE4MTQ3fQ.adZDtuamwcb0h0fuE02usHk9-EK51l3838WXBpnbUH0",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"url": "http://localhost:3001/api/users/5f199eb36694972e745a1ef9",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWYxOTllYjM2Njk0OTcyZTc0NWExZWY5IiwiZmlyc3RuYW1lIjoiSm9zZXBoIiwibGFzdG5hbWUiOiJKIn0sImlhdCI6MTU5NTUxNDU0NywiZXhwIjoxNTk1NTE4MTQ3fQ.adZDtuamwcb0h0fuE02usHk9-EK51l3838WXBpnbUH0",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstname\":\"Joseph\",\n\t\"lastname\":\"J\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Ping",
+			"description": "",
+			"item": [
+				{
+					"name": "Ping",
+					"request": {
+						"url": "http://localhost:3001/api/ping",
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWYxOTllYjM2Njk0OTcyZTc0NWExZWY5IiwiZmlyc3RuYW1lIjoiSm9zZXBoIiwibGFzdG5hbWUiOiJKIn0sImlhdCI6MTU5NjAzMDAzMSwiZXhwIjoxNTk2MDMzNjMxfQ.VJpXrOgiEP3c5vU6WpidmEMHIFnoWIk9OAdDf_Vij08",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
