@@ -21,5 +21,25 @@
     "menu": {
       "logout": "Logout"
     }
+  },
+  "site-nav": {
+    "dashboard": "Dashboard",
+    "test-composer": {
+      "title": "Test Composer",
+      "library": "Library",
+      "library-item-collection": "Item Collection",
+      "library-assets": "Assets",
+      "testlets": "Testlets",
+      "tests": "Tests"
+    },
+    "test-mgmt": {
+      "title": "Test Management",
+      "candidates": "Candidates"
+    },
+    "app-mgmt": {
+      "title": "App Management",
+      "users": "Users",
+      "roles": "Roles & Permissions"
+    }
   }
 }
