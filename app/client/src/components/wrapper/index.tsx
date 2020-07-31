@@ -1,18 +1,22 @@
 import React from "react";
-import SiteNavigator from "../navigator/sitenavigator";
 import Footer from "../footer";
+import Header from "../../components/header";
+import SiteNavigator from "../navigator/sitenavigator";
 
-const ContentWrapper: React.FunctionComponent = () => {
+const ContentWrapper: React.FC<{}> = (props) => {
   return (
-    <div className="content-wrapper">
-      <SiteNavigator />
-      <div id="content-wrapper" className="d-flex flex-column">
-        <div id="content">
-          <div className="container-fluid"></div>
+    <React.Fragment>
+      <Header />
+      <div className="content-wrapper">
+        <SiteNavigator />
+        <div id="content-wrapper" className="d-flex flex-column">
+          <div id="content">
+            <div className="container-fluid">{props.children}</div>
+          </div>
+          <Footer />
         </div>
-        <Footer />
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 
