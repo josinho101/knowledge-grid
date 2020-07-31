@@ -87,6 +87,7 @@ export const login = (email: string, password: string) => {
 
 export const logout = () => {
   return async (dispatch: Dispatch<AuthAction>) => {
+    window.location.href = "/";
     dispatch({
       type: Types.LOGOUT,
       payload: undefined!,

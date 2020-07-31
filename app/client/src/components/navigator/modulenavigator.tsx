@@ -1,11 +1,13 @@
+import Users from "../user";
 import Login from "../auth/login";
 import * as enums from "../../enums";
 import Dashboard from "../dashboard";
 import ContentWrapper from "../wrapper";
 import React, { useEffect } from "react";
 import { AppState } from "../../reducers";
-import { useSelector, connect } from "react-redux";
+import { Switch, Route } from "react-router";
 import { retryAuth } from "../../actions/auth";
+import { useSelector, connect } from "react-redux";
 import { loadLocaleFile } from "../../actions/locale";
 
 interface Props {
@@ -27,7 +29,10 @@ const ModuleNavigator: React.FunctionComponent<Props> = (props) => {
         if (auth.token && auth.status === enums.AuthStatus.success) {
           return (
             <ContentWrapper>
-              <Dashboard />
+              <Switch>
+                <Route path="/users" component={Users} />
+                <Route path="/" component={Dashboard} />
+              </Switch>
             </ContentWrapper>
           );
         } else {
