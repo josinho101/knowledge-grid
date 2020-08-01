@@ -11425,3 +11425,7 @@ body.sidebar-toggled footer.sticky-footer {
 .content-wrapper {
   display: flex;
 }
+
+.table-md th, .table-md td {
+    padding: 0.4rem;
+}
