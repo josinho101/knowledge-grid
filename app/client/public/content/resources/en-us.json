@@ -41,5 +41,14 @@
       "users": "Users",
       "roles": "Roles & Permissions"
     }
+  },
+  "pages": {
+    "users": {
+      "create-btn": "Create user",
+      "delete-btn": "Delete selected",
+      "grid": {
+        "search": "Search"
+      }
+    }
   }
 }

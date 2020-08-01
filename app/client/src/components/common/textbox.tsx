@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 interface Props {
   id: string;
-  type: "text" | "email" | "password";
+  type: "text" | "email" | "password" | "search";
   className: string;
   placeholder?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
