@@ -11448,3 +11448,7 @@ body.sidebar-toggled footer.sticky-footer {
 .table-md td {
   padding: 0.4rem;
 }
+
+.min-height-500{
+  min-height: 500px;
+}

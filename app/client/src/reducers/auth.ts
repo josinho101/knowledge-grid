@@ -12,7 +12,7 @@ export interface Auth {
   user?: IUser;
   token?: string;
   error?: string;
-  status: enums.AuthStatus;
+  status: enums.RequestStatus;
   doRetryAuth?: boolean;
   retryCount?: number;
 }
@@ -27,7 +27,7 @@ const initialState: Auth = {
   token: auth ? JSON.parse(auth).token : undefined,
   doRetryAuth: auth !== null, // retry authentication if token loaded from storage
   retryCount: 0,
-  status: enums.AuthStatus.none,
+  status: enums.RequestStatus.none,
   error: undefined,
 };
 
@@ -37,7 +37,7 @@ export default (state: Auth = initialState, action: AuthAction): Auth => {
     case Types.LOGIN_INITIATED: {
       return {
         ...state,
-        status: enums.AuthStatus.initiated,
+        status: enums.RequestStatus.initiated,
       };
     }
     case Types.LOGIN_SUCCESS: {
@@ -51,14 +51,14 @@ export default (state: Auth = initialState, action: AuthAction): Auth => {
         error: undefined,
         user: payload.user,
         token: payload.token,
-        status: enums.AuthStatus.success,
+        status: enums.RequestStatus.success,
       };
     }
     case Types.LOGIN_FAILED: {
       return {
         ...state,
         error: payload.error,
-        status: enums.AuthStatus.failed,
+        status: enums.RequestStatus.failed,
       };
     }
     case Types.LOGOUT: {
@@ -68,7 +68,7 @@ export default (state: Auth = initialState, action: AuthAction): Auth => {
         error: initialState.error,
         user: initialState.user,
         token: initialState.token,
-        status: enums.AuthStatus.none,
+        status: enums.RequestStatus.none,
       };
     }
     case Types.RETRY_AUTH: {

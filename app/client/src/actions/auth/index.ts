@@ -31,10 +31,10 @@ export const retryAuth = (token: string, retryCount: number) => {
     const response = await RequestHandler.get(url, token);
     const status =
       response?.status === httpStatus.OK
-        ? enums.AuthStatus.success
-        : enums.AuthStatus.failed;
+        ? enums.RequestStatus.success
+        : enums.RequestStatus.failed;
     const doRetryAuth =
-      status === enums.AuthStatus.failed &&
+      status === enums.RequestStatus.failed &&
       retryCount < settings.authRetryCount;
 
     dispatch({
@@ -53,7 +53,7 @@ export const login = (email: string, password: string) => {
     dispatch({
       type: Types.LOGIN_INITIATED,
       payload: {
-        status: enums.AuthStatus.initiated,
+        status: enums.RequestStatus.initiated,
       },
     });
 
@@ -70,14 +70,14 @@ export const login = (email: string, password: string) => {
         payload: {
           user: data.user,
           token: data.token,
-          status: enums.AuthStatus.success,
+          status: enums.RequestStatus.success,
         },
       });
     } else {
       dispatch({
         type: Types.LOGIN_FAILED,
         payload: {
-          status: enums.AuthStatus.failed,
+          status: enums.RequestStatus.failed,
           error: localeHelper.translate("auth.login.failure-message"),
         },
       });

@@ -53,10 +53,10 @@ const Login: React.FunctionComponent<Props> = (props) => {
   const renderAuthStatus = () => {
     let component = null;
     switch (status) {
-      case enums.AuthStatus.failed:
+      case enums.RequestStatus.failed:
         component = <label>{error}</label>;
         break;
-      case enums.AuthStatus.initiated:
+      case enums.RequestStatus.initiated:
         component = <Spinner color="blue" size="small" id="login-spinner" />;
         break;
     }

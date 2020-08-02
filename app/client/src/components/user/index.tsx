@@ -1,12 +1,43 @@
-import React from "react";
+import Table from "../common/table";
+import IUser from "../../models/user";
 import Textbox from "../common/textbox";
+import React, { useEffect } from "react";
+import { AppState } from "../../reducers";
 import IconButton from "../common/iconbutton";
 import localeHelper from "../../utils/localehelper";
 import UserTableHelper from "./table/usertablehelper";
-import Table from "../common/table";
+import { useSelector, connect } from "react-redux";
+import { getUsers } from "../../actions/administration/users";
+import Spinner from "../common/spinner";
 
-const Users: React.FC = () => {
-  const tableHelper = new UserTableHelper();
+interface Props {
+  getUsers: Function;
+  users?: IUser[];
+}
+
+const Users: React.FC<Props> = (props) => {
+  const token = useSelector((state: AppState) => state.auth.token);
+  const tableHelper = new UserTableHelper(props.users!);
+
+  useEffect(() => {
+    props.getUsers(token);
+  }, []);
+
+  const renderTable = () => {
+    if (props.users) {
+      return (
+        <Table
+          id="user-table"
+          header={tableHelper.getHeaderRow()}
+          dataRows={tableHelper.getDataRows()}
+        />
+      );
+    } else {
+      return (
+        <Spinner id="spinner-user" color="blue" spinnerCount={5} size="small" />
+      );
+    }
+  };
 
   return (
     <React.Fragment>
@@ -46,14 +77,8 @@ const Users: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="row">
-                <div className="col-sm-12">
-                  <Table
-                    id="user-table"
-                    header={tableHelper.getHeaderRow()}
-                    dataRows={tableHelper.getDataRows()}
-                  />
-                </div>
+              <div className="row min-height-500">
+                <div className="col-sm-12">{renderTable()}</div>
               </div>
             </div>
           </div>
@@ -63,4 +88,14 @@ const Users: React.FC = () => {
   );
 };
 
-export default Users;
+function mapStateToProps(state: AppState) {
+  return {
+    users: state.administration.users,
+  };
+}
+
+const mapDispatchToProps = {
+  getUsers,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Users);

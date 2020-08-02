@@ -26,7 +26,7 @@ const ModuleNavigator: React.FunctionComponent<Props> = (props) => {
         let retryCount = auth.retryCount || 0;
         props.retryAuth(auth.token, retryCount);
       } else {
-        if (auth.token && auth.status === enums.AuthStatus.success) {
+        if (auth.token && auth.status === enums.RequestStatus.success) {
           return (
             <ContentWrapper>
               <Switch>
