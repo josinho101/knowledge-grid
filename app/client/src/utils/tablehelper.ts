@@ -19,10 +19,9 @@ export default abstract class TableHelper {
     } as HeaderRow;
 
     this.columnDefinitions.forEach((def: ColumnDefinition) => {
+      const key = def.headRowResourceKey;
       const cell = {
-        data: def.resourceKey
-          ? localeHelper.translate(def.resourceKey)
-          : undefined,
+        data: key ? localeHelper.translate(key) : undefined,
       } as HeaderCell;
 
       headerRow.cells.push(cell);

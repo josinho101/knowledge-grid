@@ -1,4 +1,4 @@
 export default interface DataCell {
-  data?: string;
+  data?: any;
   className?: string;
 }

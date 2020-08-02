@@ -7,7 +7,7 @@ interface Props {
 }
 
 const Td: React.FC<Props> = (props) => {
-  return <td className={props.className}>{props.data}</td>;
+  return <td className={props.className}>{props.children}</td>;
 };
 
 export default Td;

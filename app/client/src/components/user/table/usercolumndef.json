@@ -1,31 +1,31 @@
 [
   {
-    "name": "selectAll",
+    "name": "select",
     "type": "checkbox"
   },
   {
     "name": "firstname",
     "type": "text",
-    "resourceKey": "pages.users.table.header.firstname"
+    "headRowResourceKey": "pages.users.table.header.firstname"
   },
   {
     "name": "lastname",
     "type": "text",
-    "resourceKey": "pages.users.table.header.lastname"
+    "headRowResourceKey": "pages.users.table.header.lastname"
   },
   {
     "name": "email",
     "type": "text",
-    "resourceKey": "pages.users.table.header.email"
+    "headRowResourceKey": "pages.users.table.header.email"
   },
   {
     "name": "createdDate",
     "type": "text",
-    "resourceKey": "pages.users.table.header.createdDate"
+    "headRowResourceKey": "pages.users.table.header.createdDate"
   },
   {
     "name": "edit",
     "type": "button",
-    "resourceKey": "pages.users.table.header.editButton"
+    "dataRowResourceKey": "pages.users.table.editButton"
   }
 ]

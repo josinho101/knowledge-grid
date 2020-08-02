@@ -11431,7 +11431,7 @@ body.sidebar-toggled footer.sticky-footer {
   color: red;
 }
 
-.spinner-margin {  
+.spinner-margin {
   margin-right: 5px !important;
 }
 
@@ -11442,4 +11442,9 @@ body.sidebar-toggled footer.sticky-footer {
 
 .spinner-wrapper {
   text-align: center;
+}
+
+.table-md th,
+.table-md td {
+  padding: 0.4rem;
 }

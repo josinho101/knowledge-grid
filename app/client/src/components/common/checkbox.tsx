@@ -2,9 +2,9 @@ import React from "react";
 
 interface Props {
   id: string;
-  label: string;
-  className: string;
-  labelClassName: string;
+  label?: string;
+  className?: string;
+  labelClassName?: string;
 }
 
 const Checkbox: React.FunctionComponent<Props> = (props) => {

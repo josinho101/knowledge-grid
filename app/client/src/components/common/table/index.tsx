@@ -22,7 +22,11 @@ const Table: React.FC<Props> = (props) => {
   const renderHeader = (tableId: string, header: HeaderRow) => {
     const cells = header.cells?.map((cell: HeaderCell, index: number) => {
       const identifier = `${tableId}-header-cell-${index}`;
-      return <Th id={identifier} key={`key-${identifier}`} data={cell.data} />;
+      return (
+        <Th id={identifier} key={`key-${identifier}`}>
+          {cell.data}
+        </Th>
+      );
     });
 
     return <Tr id={`${tableId}-header-row`}>{cells}</Tr>;

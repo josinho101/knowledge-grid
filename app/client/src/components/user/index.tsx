@@ -2,8 +2,12 @@ import React from "react";
 import Textbox from "../common/textbox";
 import IconButton from "../common/iconbutton";
 import localeHelper from "../../utils/localehelper";
+import UserTableHelper from "./table/usertablehelper";
+import Table from "../common/table";
 
 const Users: React.FC = () => {
+  const tableHelper = new UserTableHelper();
+
   return (
     <React.Fragment>
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
@@ -40,6 +44,15 @@ const Users: React.FC = () => {
                       />
                     </label>
                   </div>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-sm-12">
+                  <Table
+                    id="user-table"
+                    header={tableHelper.getHeaderRow()}
+                    dataRows={tableHelper.getDataRows()}
+                  />
                 </div>
               </div>
             </div>

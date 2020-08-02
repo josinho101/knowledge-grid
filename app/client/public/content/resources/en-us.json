@@ -48,12 +48,12 @@
       "delete-btn": "Delete selected",
       "table": {
         "search": "Search",
+        "editButton": "Edit",
         "header": {
           "firstname": "Firstname",
           "lastname": "Lastname",
           "email": "Email",
-          "createdDate": "Created date",
-          "editButton": "Edit"
+          "createdDate": "Created date"
         }
       }
     }

@@ -1,5 +1,6 @@
 export default interface ColumnDefinition {
   name: string;
   type: string;
-  resourceKey: string;
+  headRowResourceKey: string;
+  dataRowResourceKey: string;
 }
