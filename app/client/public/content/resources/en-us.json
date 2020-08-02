@@ -46,8 +46,15 @@
     "users": {
       "create-btn": "Create user",
       "delete-btn": "Delete selected",
-      "grid": {
-        "search": "Search"
+      "table": {
+        "search": "Search",
+        "header": {
+          "firstname": "Firstname",
+          "lastname": "Lastname",
+          "email": "Email",
+          "createdDate": "Created date",
+          "editButton": "Edit"
+        }
       }
     }
   }

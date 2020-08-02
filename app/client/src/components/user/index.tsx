@@ -32,7 +32,7 @@ const Users: React.FC = () => {
                 <div className="col-sm-12">
                   <div id="dataTable_filter" className="dataTables_filter">
                     <label>
-                      {localeHelper.translate("pages.users.grid.search")}:
+                      {localeHelper.translate("pages.users.table.search")}:
                       <Textbox
                         type="search"
                         id="txtSearch"
