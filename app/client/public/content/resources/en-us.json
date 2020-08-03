@@ -55,6 +55,16 @@
           "email": "Email",
           "createdDate": "Created date"
         }
+      },
+      "create-modal": {
+        "title": "Add or update user",
+        "save-button": "Save",
+        "cancel-button": "Cancel",
+        "firstname": "Firstname",
+        "lastname": "Lastname",
+        "password": "Password",
+        "confirm-password": "Confirm password",
+        "email": "Email"
       }
     }
   }

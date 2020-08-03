@@ -21,7 +21,7 @@ class UsersController extends Controller {
     this.router.get("/", authorize, this.get);
     this.router.get("/:userId", authorize, this.getById);
     this.router.delete("/:userId", authorize, this.delete);
-    this.router.post("/register", registrationValidator, this.post);
+    this.router.post("/register", authorize, registrationValidator, this.post);
     this.router.put("/:userId", authorize, updateValidator, this.put);
   }
 

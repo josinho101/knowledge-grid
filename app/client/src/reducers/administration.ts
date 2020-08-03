@@ -7,7 +7,7 @@ import * as enums from "../enums";
  */
 export interface Administration {
   users?: IUser[];
-  userRequestStatus?: enums.RequestStatus;
+  userAction?: enums.RequestStatus;
 }
 
 /**
@@ -15,7 +15,7 @@ export interface Administration {
  */
 const initialState: Administration = {
   users: undefined,
-  userRequestStatus: enums.RequestStatus.none,
+  userAction: enums.RequestStatus.none,
 };
 
 export default (
@@ -29,7 +29,7 @@ export default (
       return {
         ...state,
         users: action.payload.users,
-        userRequestStatus: action.payload.userRequestStatus,
+        userAction: action.payload.userAction,
       };
     }
     default:

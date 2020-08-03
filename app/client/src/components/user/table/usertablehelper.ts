@@ -43,7 +43,7 @@ export default class UserTableHelper extends TableHelper {
               cell.data = user.email;
               break;
             case columnNames.createdDate:
-              cell.data = new Date(user.created_date).toLocaleDateString();
+              cell.data = new Date(user.created_date!).toLocaleDateString();
               break;
             case columnNames.edit:
               cell.data = this.renderIconButton(id, def.dataRowResourceKey);
