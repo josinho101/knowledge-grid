@@ -6,7 +6,6 @@ interface Props {
   id: string;
   isOpen: boolean;
   title: string;
-  content: string;
   secondaryButtonText: string;
   primaryButtonText: string;
   closeButtonClickHandler: (
@@ -20,13 +19,13 @@ interface Props {
   ) => void;
 }
 
-const ConfirmationModal: React.FunctionComponent<Props> = (props) => {
+const CommonModal: React.FunctionComponent<Props> = (props) => {
   return (
-    <Modal show={props.isOpen} onHide={props.closeButtonClickHandler}>
+    <Modal show={props.isOpen} onHide={props.closeButtonClickHandler} centered>
       <Modal.Header closeButton>
         <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{props.content}</Modal.Body>
+      <Modal.Body>{props.children}</Modal.Body>
       <Modal.Footer>
         <Button
           variant="secondary"
@@ -36,7 +35,7 @@ const ConfirmationModal: React.FunctionComponent<Props> = (props) => {
           {props.secondaryButtonText}
         </Button>
         <Button
-          variant="danger"
+          variant="primary"
           size="sm"
           onClick={props.primaryButtonClickHandler}
         >
@@ -47,4 +46,4 @@ const ConfirmationModal: React.FunctionComponent<Props> = (props) => {
   );
 };
 
-export default ConfirmationModal;
+export default CommonModal;

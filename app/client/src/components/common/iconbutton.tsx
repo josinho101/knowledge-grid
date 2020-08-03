@@ -6,6 +6,7 @@ interface Props {
   title?: string;
   iconClass?: string;
   buttonType: "primary" | "danger" | "secondary" | "success" | "warning";
+  onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 
 const IconButton: React.FC<Props> = (props) => {
@@ -34,6 +35,7 @@ const IconButton: React.FC<Props> = (props) => {
       href="#"
       title={props.title}
       className={classNames("btn btn-sm btn-icon-split mr-1", getButtonType())}
+      onClick={props.onClick}
     >
       {props.iconClass ? (
         <span className="icon text-white-50">
