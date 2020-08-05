@@ -11505,4 +11505,14 @@ body.sidebar-toggled footer.sticky-footer {
 
 .treeview {
   width: 500px;
+  margin-bottom: 10px !important;
+}
+
+.split-pane {
+  height: auto !important;
+  overflow: auto !important;
+}
+
+.content-wrapper-container {
+  min-height: 600px;
 }

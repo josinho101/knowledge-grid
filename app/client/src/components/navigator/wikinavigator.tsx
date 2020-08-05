@@ -15,7 +15,7 @@ const WikiNavigator: React.FunctionComponent = () => {
   }
 
   return (
-    <div className="sidebar sidebar-light accordion m-3">
+    <div className="sidebar sidebar-light accordion m-2">
       <TreeView
         className="treeview"
         defaultCollapseIcon={<FolderOpenIcon />}
