@@ -6,6 +6,7 @@ interface Props {
   id: string;
   isOpen: boolean;
   title: string;
+  size?: "lg";
   secondaryButtonText: string;
   primaryButtonText: string;
   closeButtonClickHandler: (
@@ -21,7 +22,12 @@ interface Props {
 
 const CommonModal: React.FunctionComponent<Props> = (props) => {
   return (
-    <Modal show={props.isOpen} onHide={props.closeButtonClickHandler} centered>
+    <Modal
+      size={props.size}
+      show={props.isOpen}
+      onHide={props.closeButtonClickHandler}
+      centered
+    >
       <Modal.Header closeButton>
         <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>
