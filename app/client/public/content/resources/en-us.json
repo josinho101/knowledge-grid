@@ -73,7 +73,16 @@
       "add-new-modal": {
         "title": "Add new wiki",
         "save-btn": "Save",
-        "cancel-btn": "Cancel"
+        "cancel-btn": "Cancel",
+        "parent": "Parent",
+        "wiki-type": "Wiki type",
+        "wiki-title": "Wiki title",
+        "edit-on-save": "Edit on save",
+        "wiki-type-dropdown": {
+          "none": "- None -",
+          "folder": "Folder",
+          "page": "Page"
+        }
       }
     }
   }
