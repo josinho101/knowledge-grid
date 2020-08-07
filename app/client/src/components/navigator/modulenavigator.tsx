@@ -1,7 +1,7 @@
 import Users from "../user";
+import WikiPage from "../wiki";
 import Login from "../auth/login";
 import * as enums from "../../enums";
-import Dashboard from "../dashboard";
 import ContentWrapper from "../wrapper";
 import React, { useEffect } from "react";
 import { AppState } from "../../reducers";
@@ -31,7 +31,7 @@ const ModuleNavigator: React.FunctionComponent<Props> = (props) => {
             <ContentWrapper>
               <Switch>
                 <Route path="/users" component={Users} />
-                <Route path="/" component={Dashboard} />
+                <Route path="/" component={WikiPage} />
               </Switch>
             </ContentWrapper>
           );

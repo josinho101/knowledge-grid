@@ -11503,9 +11503,13 @@ body.sidebar-toggled footer.sticky-footer {
   border-color: transparent;
 }
 
-.treeview {
+.treeview-nav {
   width: 500px;
   margin-bottom: 10px !important;
+}
+
+.treeview-modal {
+  width: 250px;
 }
 
 .split-pane {
@@ -11515,4 +11519,32 @@ body.sidebar-toggled footer.sticky-footer {
 
 .content-wrapper-container {
   min-height: 600px;
+}
+
+.wiki-title-wrapper {
+  display: table !important;
+}
+
+.wiki-title {
+  display: table-cell;
+  width: 915px;
+}
+
+.wiki-option-controls {
+  display: table-cell;
+  width: 150px;
+}
+
+.wiki-add-container {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.wiki-add-left-pane {
+  overflow-y: scroll;
+  height: 300px;
+}
+
+.wiki-add-right-pane {
+  margin-left: 20px;
 }

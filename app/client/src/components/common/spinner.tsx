@@ -8,7 +8,7 @@ interface Props {
   color: "blue" | "dark" | "green" | "yellow" | "red";
 }
 
-const Anchor: React.FunctionComponent<Props> = (props) => {
+const Spinner: React.FunctionComponent<Props> = (props) => {
   const getSpinnerSize = () => {
     let size = props.size;
     let className = "";
@@ -77,8 +77,8 @@ const Anchor: React.FunctionComponent<Props> = (props) => {
   return <div className="spinner-wrapper">{grenderSpinners()}</div>;
 };
 
-Anchor.defaultProps = {
+Spinner.defaultProps = {
   spinnerCount: 5,
 };
 
-export default Anchor;
+export default Spinner;

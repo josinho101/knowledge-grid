@@ -66,6 +66,15 @@
         "confirm-password": "Confirm password",
         "email": "Email"
       }
+    },
+    "wiki": {
+      "add-new-btn": "Add new",
+      "edit-btn": "Edit",
+      "add-new-modal": {
+        "title": "Add new wiki",
+        "save-btn": "Save",
+        "cancel-btn": "Cancel"
+      }
     }
   }
 }
