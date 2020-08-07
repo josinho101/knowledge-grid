@@ -8,7 +8,7 @@
         "remember-me": "Remember Me",
         "login-button": "Login"
       },
-      "failure-message": "Invalid username or password. Failed to authenticate with this username password combination."
+      "failure-message": "Invalid username or password. Failed to authenticate with this username and password."
     },
     "logout-modal": {
       "cancel-button": "Cancel",
