@@ -11549,3 +11549,15 @@ body.sidebar-toggled footer.sticky-footer {
   width: 60%;
   margin-left: 20px;
 }
+
+.wiki-edit-modal {
+  min-width: 90%;
+}
+
+.wiki-edit-modal-body {
+  height: 480px;
+}
+
+.tox-notification {
+  display: none !important;
+}

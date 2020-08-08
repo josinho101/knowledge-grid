@@ -83,6 +83,10 @@
           "folder": "Folder",
           "page": "Page"
         }
+      },
+      "edit-modal": {
+        "save-btn": "Save",
+        "cancel-btn": "Cancel"
       }
     }
   }

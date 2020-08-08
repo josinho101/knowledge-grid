@@ -7,6 +7,8 @@ interface Props {
   isOpen: boolean;
   title: string;
   size?: "lg";
+  dialogClassName?: string;
+  bodyClassName?: string;
   secondaryButtonText: string;
   primaryButtonText: string;
   closeButtonClickHandler: (
@@ -25,13 +27,14 @@ const CommonModal: React.FunctionComponent<Props> = (props) => {
     <Modal
       size={props.size}
       show={props.isOpen}
+      dialogClassName={props.dialogClassName}
       onHide={props.closeButtonClickHandler}
       centered
     >
       <Modal.Header closeButton>
         <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>
-      <Modal.Body>{props.children}</Modal.Body>
+      <Modal.Body className={props.bodyClassName}>{props.children}</Modal.Body>
       <Modal.Footer>
         <Button
           variant="secondary"
