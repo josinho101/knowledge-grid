@@ -4,6 +4,8 @@ Knowledge grid is an browser based wiki, which is built using **MERN** stack. Us
 
 Knowledge grid lets you recording and sharing your knowledge with your colleagues and friends. This application has the ability to recording your knowledge in text, images and videos formats. It also supports uploading documents which can later be viewed/downloaded whenever needed.
 
+![Screen](./screenshots/logo.png)
+
 ### Technology stack
 
 ![Screen](./screenshots/mern-stack.png)
