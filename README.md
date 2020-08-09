@@ -1,10 +1,8 @@
-# The Sentinel
+# The Knowledge Grid
 
-Sentinel is an browser based exam portal, which is built using **MERN** stack. User interface is built using **reactjs** and **redux** as state management system. Back-end API's are done in **nodejs** and **mongodb** as database.
+Knowledge grid is an browser based wiki, which is built using **MERN** stack. User interface is built using **reactjs** and **redux** as state management system. Back-end API's are done in **nodejs** and **mongodb** as database.
 
-Sentinel will have the capability of authoring question items and configuring testlet of a test. It will have a built-in dashboard which provide information on various activities going on with the application for admin users. Candidates will have separate login area, where they could take test and submit their responses.
-
-![Screen](./screenshots/logo.png)
+Knowledge grid lets you recording and sharing your knowledge with your colleagues and friends. This application has the ability to recording your knowledge in text, images and videos formats. It also supports uploading documents which can later be viewed/downloaded whenever needed.
 
 ### Technology stack
 
@@ -27,6 +25,10 @@ To run both client and server from same command prompt, we can run **npm start**
 
 ### Screen mockups
 
-#### Dashboard
+![Screen](./screenshots/login.png)
 
-![Screen](./screenshots/dashboard.png)
+![Screen](./screenshots/home.png)
+
+![Screen](./screenshots/add-wiki.png)
+
+![Screen](./screenshots/edit-wiki.png)
