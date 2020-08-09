@@ -1,7 +1,7 @@
 {
   "auth": {
     "login": {
-      "title": "Login to Sentinel",
+      "title": "Login to KG",
       "controls": {
         "email-field": "Email",
         "password-field": "Password",
