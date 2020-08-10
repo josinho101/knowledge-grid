@@ -2,7 +2,9 @@
 
 Knowledge grid is an browser based wiki, which is built using **MERN** stack. User interface is built using **reactjs** and **redux** as state management system. Back-end API's are done in **nodejs** and **mongodb** as database.
 
-Knowledge grid lets you recording and sharing your knowledge with your colleagues and friends. This application has the ability to recording your knowledge in text, images and videos formats. It also supports uploading documents which can later be viewed/downloaded whenever needed.
+Knowledge grid lets you record and share your knowledge with your colleagues and friends. This application lets you record your knowledge in text, image and video formats. It also supports uploading documents which can later be viewed/downloaded whenever needed.
+
+![Screen](./screenshots/logo.png)
 
 ### Technology stack
 
