@@ -68,7 +68,7 @@
       }
     },
     "wiki": {
-      "add-new-btn": "Add new",
+      "add-new-btn": "New",
       "edit-btn": "Edit",
       "add-new-modal": {
         "title": "Add new wiki",
@@ -79,7 +79,7 @@
         "wiki-title": "Wiki title",
         "edit-on-save": "Edit on save",
         "wiki-type-dropdown": {
-          "none": "- None -",
+          "none": "- Select -",
           "folder": "Folder",
           "page": "Page"
         }
