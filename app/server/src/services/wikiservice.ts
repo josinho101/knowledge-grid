@@ -5,6 +5,11 @@ import Error from "../models/error";
 import Wiki, { IWiki } from "../models/Wiki";
 
 class WikiService {
+  public getWikis = async () => {
+    const wikis = await Wiki.find({ status: enums.status.active });
+    return wikis;
+  };
+
   /**
    * create new wiki
    * @param wiki wiki object
@@ -28,7 +33,7 @@ class WikiService {
       error.message = e.message;
     }
 
-    return { status, error };
+    return { status, error, wiki };
   };
 
   /**

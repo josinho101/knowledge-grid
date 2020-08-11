@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
 import * as enums from "../enums";
+import mongoose, { Schema } from "mongoose";
 
 export interface IWiki extends mongoose.Document {
   parentId: string;
@@ -8,10 +8,12 @@ export interface IWiki extends mongoose.Document {
   status: enums.status;
   createdDate: Date;
   updatedDate: Date;
+  createdBy: string;
 }
 
 const WikiSchema = new mongoose.Schema({
-  parentId: { type: String, required: true },
+  parentId: { type: Schema.Types.ObjectId, ref: "wikis", required: true },
+  createdBy: { type: Schema.Types.ObjectId, ref: "users", required: true },
   type: { type: String },
   title: { type: String, required: true },
   createdDate: { type: Date },
@@ -19,5 +21,5 @@ const WikiSchema = new mongoose.Schema({
   status: { type: Number, select: false, default: enums.status.none },
 });
 
-const Wiki = mongoose.model<IWiki>("wiki", WikiSchema);
+const Wiki = mongoose.model<IWiki>("wikis", WikiSchema);
 export default Wiki;

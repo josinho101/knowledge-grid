@@ -1,3 +1,5 @@
+import Wiki from "../../models/Wiki";
+import logger from "../../utils/logger";
 import Controller from "./base/controller";
 import httpStatus from "http-status-codes";
 import ApiResult from "../../models/ApiResult";
@@ -5,8 +7,6 @@ import wikiService from "../../services/wikiservice";
 import { Request, Response } from "../../types/express";
 import authorize from "../../middlewares/authmiddleware";
 import { createWikiValidator } from "../../validators/wikivalidator";
-import Wiki from "../../models/Wiki";
-import logger from "../../utils/logger";
 
 class WikisController extends Controller {
   constructor() {
@@ -15,8 +15,14 @@ class WikisController extends Controller {
   }
 
   protected mapRoute() {
+    this.router.get("/", authorize, this.get);
     this.router.post("/", authorize, createWikiValidator, this.createWiki);
   }
+
+  private get = async (req: Request, res: Response) => {
+    const wikis = await wikiService.getWikis();
+    return res.status(httpStatus.OK).json({ data: wikis } as ApiResult);
+  };
 
   /**
    * create wiki
@@ -31,8 +37,10 @@ class WikisController extends Controller {
       }
 
       const { parentId, type, title } = req.body;
+      const createdBy = req.user?.id;
       const wiki = new Wiki({
         parentId,
+        createdBy,
         type,
         title,
       });
@@ -44,11 +52,9 @@ class WikisController extends Controller {
           .json({ error: [result.error] } as ApiResult);
       }
 
-      logger.info(`new child wiki created for ${parentId}`);
+      logger.info(`new wiki created ${JSON.stringify(result.wiki)}`);
 
-      return res
-        .status(httpStatus.OK)
-        .json({ data: "Wiki created" } as ApiResult);
+      return res.status(httpStatus.OK).json({ data: result.wiki } as ApiResult);
     } catch (e) {
       logger.error(JSON.stringify(e));
       return res
