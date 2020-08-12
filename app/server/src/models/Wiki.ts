@@ -3,7 +3,7 @@ import mongoose, { Schema } from "mongoose";
 
 export interface IWiki extends mongoose.Document {
   parentId: string;
-  type: string;
+  type: enums.wikiType;
   title: string;
   status: enums.status;
   createdDate: Date;
@@ -14,7 +14,7 @@ export interface IWiki extends mongoose.Document {
 const WikiSchema = new mongoose.Schema({
   parentId: { type: Schema.Types.ObjectId, ref: "wikis", required: true },
   createdBy: { type: Schema.Types.ObjectId, ref: "users", required: true },
-  type: { type: String },
+  type: { type: enums.wikiType },
   title: { type: String, required: true },
   createdDate: { type: Date },
   updatedDate: { type: Date, default: Date.now() },

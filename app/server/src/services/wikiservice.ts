@@ -1,13 +1,26 @@
-import config from "config";
 import mongoose from "mongoose";
 import * as enums from "../enums";
 import Error from "../models/error";
 import Wiki, { IWiki } from "../models/Wiki";
+import { IWikiViewModel } from "../models/wikiviewmodel";
 
 class WikiService {
-  public getWikis = async () => {
+  public getWikiTree = async () => {
     const wikis = await Wiki.find({ status: enums.status.active });
-    return wikis;
+    const rootWiki = wikis.find((i) => i.parentId === undefined);
+    if (rootWiki) {
+      const root: IWikiViewModel = {
+        id: rootWiki._id,
+        title: rootWiki.title,
+        type: rootWiki.type,
+      };
+
+      this.constructWikiTree(root, wikis);
+
+      return root;
+    }
+
+    return undefined;
   };
 
   /**
@@ -47,6 +60,36 @@ class WikiService {
 
     return await Wiki.findOne({ _id: id, status: enums.status.active });
   };
+
+  /**
+   * construct wiki tree
+   * @param wiki parent wiki
+   * @param wikis all wikis from db
+   */
+  private constructWikiTree(wiki: IWikiViewModel, wikis: IWiki[]) {
+    const children = wikis.filter(
+      (i) => i.parentId?.toString() === wiki.id?.toString()
+    );
+
+    if (children && children.length) {
+      if (!wiki.children) {
+        wiki.children = [];
+      }
+
+      children.forEach((w) => {
+        const childWiki: IWikiViewModel = {
+          id: w._id,
+          title: w.title,
+          type: w.type,
+        };
+        wiki.children?.push(childWiki);
+
+        if (childWiki.type === enums.wikiType.folder) {
+          this.constructWikiTree(childWiki, wikis);
+        }
+      });
+    }
+  }
 }
 
 let service = new WikiService();

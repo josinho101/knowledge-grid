@@ -20,8 +20,8 @@ class WikisController extends Controller {
   }
 
   private get = async (req: Request, res: Response) => {
-    const wikis = await wikiService.getWikis();
-    return res.status(httpStatus.OK).json({ data: wikis } as ApiResult);
+    const root = await wikiService.getWikiTree();
+    return res.status(httpStatus.OK).json({ data: root } as ApiResult);
   };
 
   /**
