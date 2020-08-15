@@ -14,6 +14,8 @@ export enum WikiActionTypes {
   WIKI_TREE_RETRIEVAL_INITIATED = "WIKI_TREE_RETRIEVAL_INITIATED",
   WIKI_TREE_RECEIVED = "USER_DATA_RECEIVED",
   WIKI_TREE_RETRIEVAL_FAILED = "USER_DATA_RETRIEVAL_FAILED",
+  SET_SELECTED_WIKIS = "SET_SELECTED_WIKIS",
+  SET_EXPANDED_WIKIS = "SET_EXPANDED_WIKIS",
 }
 
 /* wiki action */
@@ -21,6 +23,28 @@ export interface WikiAction extends Base {
   type: WikiActionTypes;
   payload: Data;
 }
+
+export const setSelectedWikis = (wikiIds: string[]) => {
+  return async (dispatch: Dispatch<WikiAction>) => {
+    dispatch({
+      type: WikiActionTypes.SET_SELECTED_WIKIS,
+      payload: {
+        selectedWikiIds: wikiIds,
+      },
+    });
+  };
+};
+
+export const setExpandedWikis = (wikiIds: string[]) => {
+  return async (dispatch: Dispatch<WikiAction>) => {
+    dispatch({
+      type: WikiActionTypes.SET_EXPANDED_WIKIS,
+      payload: {
+        expandedWikiIds: wikiIds,
+      },
+    });
+  };
+};
 
 export const getWikiTree = (token: string) => {
   return async (dispatch: Dispatch<WikiAction>) => {

@@ -29,7 +29,12 @@ const WikiTree: React.FC<Props> = (props) => {
         ) : null;
 
       return (
-        <TreeItem nodeId={wiki.id} label={wiki.title} endIcon={endIcon}>
+        <TreeItem
+          key={wiki.id}
+          nodeId={wiki.id}
+          label={wiki.title}
+          endIcon={endIcon}
+        >
           {wiki.children && wiki.children.length
             ? constructTree(wiki.children)
             : undefined}
@@ -38,12 +43,28 @@ const WikiTree: React.FC<Props> = (props) => {
     });
   };
 
+  const onNodeSelect = (e: React.ChangeEvent<{}>, nodeIds: string[]) => {
+    console.log(nodeIds);
+  };
+
+  const onNodeToggle = (e: React.ChangeEvent<{}>, nodeIds: string[]) => {
+    console.log(nodeIds);
+  };
+
   return (
     <TreeView
+      selected={["5f360a2964bba61488c3d909"]}
       className={props.className}
       defaultCollapseIcon={<FolderOpenIcon />}
       defaultExpandIcon={<FolderIcon />}
       defaultEndIcon={<TextIcon />}
+      defaultExpanded={[
+        "5f320a5458afca0920174f87",
+        "5f3609a764bba61488c3d906",
+        "5f3609d664bba61488c3d908",
+      ]}
+      onNodeSelect={onNodeSelect}
+      onNodeToggle={onNodeToggle}
     >
       {props.wikis ? constructTree(props.wikis) : null}
     </TreeView>
