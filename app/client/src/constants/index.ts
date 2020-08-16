@@ -1,3 +1,5 @@
 export const Keys = {
   AUTH: "auth",
+  SELECTED_WIKIS: "SELECTED_WIKIS",
+  EXPANDED_WIKIS: "EXPANDED_WIKIS",
 };

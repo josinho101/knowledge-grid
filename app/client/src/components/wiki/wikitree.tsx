@@ -1,15 +1,22 @@
 import React from "react";
 import * as enums from "../../enums";
+import { connect } from "react-redux";
 import { Wiki } from "../../models/wiki";
+import { AppState } from "../../reducers";
 import TreeItem from "@material-ui/lab/TreeItem";
 import TreeView from "@material-ui/lab/TreeView";
 import FolderIcon from "@material-ui/icons/Folder";
 import FolderOpenIcon from "@material-ui/icons/FolderOpenTwoTone";
 import SvgIcon, { SvgIconProps } from "@material-ui/core/SvgIcon";
+import { setExpandedWikis, setSelectedWikis } from "../../actions/wiki";
 
 interface Props {
   className: string;
   wikis?: Wiki[];
+  expandedWikiIds?: string[];
+  selectedWikiIds?: string[];
+  setExpandedWikis: Function;
+  setSelectedWikis: Function;
 }
 
 const WikiTree: React.FC<Props> = (props) => {
@@ -44,25 +51,21 @@ const WikiTree: React.FC<Props> = (props) => {
   };
 
   const onNodeSelect = (e: React.ChangeEvent<{}>, nodeIds: string[]) => {
-    console.log(nodeIds);
+    props.setSelectedWikis(nodeIds);
   };
 
   const onNodeToggle = (e: React.ChangeEvent<{}>, nodeIds: string[]) => {
-    console.log(nodeIds);
+    props.setExpandedWikis(nodeIds);
   };
 
   return (
     <TreeView
-      selected={["5f360a2964bba61488c3d909"]}
+      selected={props.selectedWikiIds}
       className={props.className}
       defaultCollapseIcon={<FolderOpenIcon />}
       defaultExpandIcon={<FolderIcon />}
       defaultEndIcon={<TextIcon />}
-      defaultExpanded={[
-        "5f320a5458afca0920174f87",
-        "5f3609a764bba61488c3d906",
-        "5f3609d664bba61488c3d908",
-      ]}
+      defaultExpanded={props.expandedWikiIds}
       onNodeSelect={onNodeSelect}
       onNodeToggle={onNodeToggle}
     >
@@ -71,4 +74,16 @@ const WikiTree: React.FC<Props> = (props) => {
   );
 };
 
-export default WikiTree;
+const mapStateToProps = (state: AppState) => {
+  return {
+    expandedWikiIds: state.data.expandedWikiIds,
+    selectedWikiIds: state.data.selectedWikiIds,
+  };
+};
+
+const mapDispatchToProps = {
+  setExpandedWikis,
+  setSelectedWikis,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WikiTree);

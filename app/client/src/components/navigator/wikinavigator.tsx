@@ -7,7 +7,7 @@ import { useSelector, connect } from "react-redux";
 
 interface Props {
   getWikiTree: Function;
-  wiki: Wiki;
+  wiki?: Wiki;
 }
 
 const WikiNavigator: React.FC<Props> = (props) => {
