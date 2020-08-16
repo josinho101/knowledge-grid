@@ -68,6 +68,10 @@
       }
     },
     "wiki": {
+      "controls": {
+        "expand-btn": "Expand all",
+        "collapse-btn": "Collapse all"
+      },
       "add-new-btn": "New",
       "edit-btn": "Edit",
       "add-new-modal": {

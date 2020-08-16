@@ -14,6 +14,8 @@ import {
   faPencilAlt,
   faPlus,
   faTrash,
+  faExpand,
+  faCompress,
 } from "@fortawesome/free-solid-svg-icons";
 
 const IconLibrary: React.FunctionComponent = () => {
@@ -30,7 +32,9 @@ const IconLibrary: React.FunctionComponent = () => {
     faBars,
     faPencilAlt,
     faPlus,
-    faTrash
+    faTrash,
+    faExpand,
+    faCompress
   );
 
   return null;

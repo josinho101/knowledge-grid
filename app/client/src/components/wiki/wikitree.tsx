@@ -1,6 +1,7 @@
 import React from "react";
 import * as enums from "../../enums";
 import { connect } from "react-redux";
+import Spinner from "../common/spinner";
 import { Wiki } from "../../models/wiki";
 import { AppState } from "../../reducers";
 import TreeItem from "@material-ui/lab/TreeItem";
@@ -58,7 +59,7 @@ const WikiTree: React.FC<Props> = (props) => {
     props.setExpandedWikis(nodeIds);
   };
 
-  return (
+  return props.wikis ? (
     <TreeView
       selected={props.selectedWikiIds}
       className={props.className}
@@ -69,8 +70,10 @@ const WikiTree: React.FC<Props> = (props) => {
       onNodeSelect={onNodeSelect}
       onNodeToggle={onNodeToggle}
     >
-      {props.wikis ? constructTree(props.wikis) : null}
+      {constructTree(props.wikis)}
     </TreeView>
+  ) : (
+    <Spinner id="spinner-wiki" color="blue" spinnerCount={5} size="small" />
   );
 };
 

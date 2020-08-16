@@ -116,12 +116,13 @@ const Login: React.FunctionComponent<Props> = (props) => {
                     <Anchor
                       href="#"
                       id="login"
-                      text={localeHelper.translate(
-                        "auth.login.controls.login-button"
-                      )}
                       onClick={onLoginClick}
                       className="btn btn-primary btn-user btn-block"
-                    />
+                    >
+                      {localeHelper.translate(
+                        "auth.login.controls.login-button"
+                      )}
+                    </Anchor>
                     <div className="form-group mb-0 mt-2">
                       <div className="small error-display">
                         {renderAuthStatus()}
