@@ -1,12 +1,16 @@
 import React from "react";
 import WikiTree from "./wikitree";
+import { connect } from "react-redux";
 import Textbox from "../common/textbox";
+import { Wiki } from "../../models/wiki";
+import { AppState } from "../../reducers";
 import Checkbox from "../common/checkbox";
 import CommonModal from "../common/commonmodal";
 import localeHelper from "../../utils/localehelper";
 
 interface Props {
   isOpen: boolean;
+  wiki?: Wiki;
   onCancelClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   onSaveClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
@@ -30,7 +34,7 @@ const AddWiki: React.FC<Props> = (props) => {
     >
       <div className="wiki-add-container">
         <div className="wiki-add-left-pane">
-          <WikiTree className="treeview-modal" />
+          <WikiTree className="treeview-modal" wikis={props.wiki?.children} />
         </div>
         <div className="wiki-add-right-pane">
           <div className="form-group">
@@ -108,4 +112,10 @@ const AddWiki: React.FC<Props> = (props) => {
   );
 };
 
-export default AddWiki;
+const mapStateToProps = (state: AppState) => {
+  return {
+    wiki: state.data.wikiTree,
+  };
+};
+
+export default connect(mapStateToProps, undefined)(AddWiki);
