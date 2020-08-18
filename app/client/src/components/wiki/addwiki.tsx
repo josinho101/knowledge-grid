@@ -1,11 +1,12 @@
 import React from "react";
 import WikiTree from "./wikitree";
-import { connect } from "react-redux";
+import * as enums from "../../enums";
 import Textbox from "../common/textbox";
 import { Wiki } from "../../models/wiki";
 import { AppState } from "../../reducers";
 import Checkbox from "../common/checkbox";
 import CommonModal from "../common/commonmodal";
+import { useSelector, connect } from "react-redux";
 import localeHelper from "../../utils/localehelper";
 
 interface Props {
@@ -16,6 +17,35 @@ interface Props {
 }
 
 const AddWiki: React.FC<Props> = (props) => {
+  const selectedWikiId = useSelector(
+    (state: AppState) => state.data.selectedWikiId
+  );
+
+  // console.log(selectedWikiIds);
+
+  const findWiki = (wikiId: string, tree?: Wiki) => {
+    if (tree && tree.children) {
+      const folders = tree.children.filter(
+        (i) => i.type === enums.wikiType.folder
+      );
+
+      if (folders) {
+        const result = folders.filter((i) => i.id === wikiId);
+        if (result && result.length) {
+          return result[0];
+        } else {
+          folders.forEach((wiki) => {
+            return findWiki(wikiId, wiki);
+          });
+        }
+      }
+    }
+  };
+
+  if (selectedWikiId) {
+    console.log(findWiki(selectedWikiId, props.wiki));
+  }
+
   return (
     <CommonModal
       size="lg"
@@ -42,7 +72,7 @@ const AddWiki: React.FC<Props> = (props) => {
               {localeHelper.translate("pages.wiki.add-new-modal.parent")} -
               &nbsp;
             </label>
-            <b>{"<SELECTED WIKI FOLDER>"}</b>
+            <b>{}</b>
           </div>
           <div className="form-group">
             <div className="form-row">
@@ -115,6 +145,7 @@ const AddWiki: React.FC<Props> = (props) => {
 const mapStateToProps = (state: AppState) => {
   return {
     wiki: state.data.wikiTree,
+    selectedWikiId: state.data.selectedWikiId,
   };
 };
 

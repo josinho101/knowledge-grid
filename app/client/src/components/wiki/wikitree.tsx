@@ -9,15 +9,15 @@ import TreeView from "@material-ui/lab/TreeView";
 import FolderIcon from "@material-ui/icons/Folder";
 import FolderOpenIcon from "@material-ui/icons/FolderOpenTwoTone";
 import SvgIcon, { SvgIconProps } from "@material-ui/core/SvgIcon";
-import { setExpandedWikis, setSelectedWikis } from "../../actions/wiki";
+import { setExpandedWikis, setSelectedWiki } from "../../actions/wiki";
 
 interface Props {
   className: string;
   wikis?: Wiki[];
   expandedWikiIds?: string[];
-  selectedWikiIds?: string[];
+  selectedWikiId?: string[];
   setExpandedWikis: Function;
-  setSelectedWikis: Function;
+  setSelectedWiki: Function;
 }
 
 const WikiTree: React.FC<Props> = (props) => {
@@ -52,7 +52,8 @@ const WikiTree: React.FC<Props> = (props) => {
   };
 
   const onNodeSelect = (e: React.ChangeEvent<{}>, nodeIds: string[]) => {
-    props.setSelectedWikis(nodeIds);
+    console.log(nodeIds);
+    props.setSelectedWiki(nodeIds);
   };
 
   const onNodeToggle = (e: React.ChangeEvent<{}>, nodeIds: string[]) => {
@@ -61,7 +62,7 @@ const WikiTree: React.FC<Props> = (props) => {
 
   return props.wikis ? (
     <TreeView
-      selected={props.selectedWikiIds}
+      selected={props.selectedWikiId}
       className={props.className}
       defaultCollapseIcon={<FolderOpenIcon />}
       defaultExpandIcon={<FolderIcon />}
@@ -80,13 +81,13 @@ const WikiTree: React.FC<Props> = (props) => {
 const mapStateToProps = (state: AppState) => {
   return {
     expandedWikiIds: state.data.expandedWikiIds,
-    selectedWikiIds: state.data.selectedWikiIds,
+    selectedWikiIds: state.data.selectedWikiId,
   };
 };
 
 const mapDispatchToProps = {
   setExpandedWikis,
-  setSelectedWikis,
+  setSelectedWiki,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WikiTree);
