@@ -21,8 +21,6 @@ const AddWiki: React.FC<Props> = (props) => {
     (state: AppState) => state.data.selectedWikiId
   );
 
-  // console.log(selectedWikiIds);
-
   const findWiki = (wikiId: string, tree?: Wiki) => {
     if (tree && tree.children) {
       const folders = tree.children.filter(
@@ -41,10 +39,6 @@ const AddWiki: React.FC<Props> = (props) => {
       }
     }
   };
-
-  if (selectedWikiId) {
-    console.log(findWiki(selectedWikiId, props.wiki));
-  }
 
   return (
     <CommonModal
