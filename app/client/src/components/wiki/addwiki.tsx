@@ -21,7 +21,7 @@ const AddWiki: React.FC<Props> = (props) => {
     (state: AppState) => state.data.selectedWikiId
   );
 
-  const findWiki = (wikiId: string, tree?: Wiki) => {
+  const findWiki = (wikiId: string, tree?: Wiki): Wiki | undefined => {
     if (tree && tree.children) {
       const folders = tree.children.filter(
         (i) => i.type === enums.wikiType.folder
@@ -29,12 +29,12 @@ const AddWiki: React.FC<Props> = (props) => {
 
       if (folders) {
         const result = folders.filter((i) => i.id === wikiId);
-        if (result && result.length) {
+        if (result && result.length > 0) {
           return result[0];
         } else {
-          folders.forEach((wiki) => {
-            return findWiki(wikiId, wiki);
-          });
+          for (let i = 0; i < folders.length; i++) {
+            return findWiki(wikiId, folders[i]);
+          }
         }
       }
     }
