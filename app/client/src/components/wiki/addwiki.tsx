@@ -21,7 +21,7 @@ const AddWiki: React.FC<Props> = (props) => {
     (state: AppState) => state.data.selectedWikiId
   );
 
-  const findWiki = (wikiId: string, tree?: Wiki): Wiki | undefined => {
+  const findWiki = (wikiId?: string, tree?: Wiki): Wiki | undefined => {
     if (tree && tree.children) {
       const folders = tree.children.filter(
         (i) => i.type === enums.wikiType.folder
@@ -69,7 +69,7 @@ const AddWiki: React.FC<Props> = (props) => {
               {localeHelper.translate("pages.wiki.add-new-modal.parent")} -
               &nbsp;
             </label>
-            <b>{}</b>
+            <b>{findWiki(selectedWikiId, props.wiki)?.title}</b>
           </div>
           <div className="form-group">
             <div className="form-row">
