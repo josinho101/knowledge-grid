@@ -33,7 +33,10 @@ const AddWiki: React.FC<Props> = (props) => {
           return result[0];
         } else {
           for (let i = 0; i < folders.length; i++) {
-            return findWiki(wikiId, folders[i]);
+            const wiki = findWiki(wikiId, folders[i]);
+            if (wiki) {
+              return wiki;
+            }
           }
         }
       }
