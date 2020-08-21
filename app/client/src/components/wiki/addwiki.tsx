@@ -1,6 +1,7 @@
-import React from "react";
 import WikiTree from "./wikitree";
 import * as enums from "../../enums";
+import Anchor from "../common/anchor";
+import React, { useState } from "react";
 import Textbox from "../common/textbox";
 import { Wiki } from "../../models/wiki";
 import { AppState } from "../../reducers";
@@ -17,6 +18,7 @@ interface Props {
 }
 
 const AddWiki: React.FC<Props> = (props) => {
+  const [wikiType, setWikiType] = useState(0);
   const selectedWikiId = useSelector(
     (state: AppState) => state.data.selectedWikiId
   );
@@ -41,6 +43,10 @@ const AddWiki: React.FC<Props> = (props) => {
         }
       }
     }
+  };
+
+  const onWikiTypeClick = (type: enums.wikiType) => {
+    setWikiType(type);
   };
 
   return (
@@ -98,16 +104,24 @@ const AddWiki: React.FC<Props> = (props) => {
                     className="dropdown-menu"
                     aria-labelledby="dropdownMenuLink"
                   >
-                    <a className="dropdown-item" href="#">
+                    <Anchor
+                      className="dropdown-item"
+                      href="#"
+                      onClick={() => onWikiTypeClick(enums.wikiType.folder)}
+                    >
                       {localeHelper.translate(
                         "pages.wiki.add-new-modal.wiki-type-dropdown.folder"
                       )}
-                    </a>
-                    <a className="dropdown-item" href="#">
+                    </Anchor>
+                    <Anchor
+                      className="dropdown-item"
+                      href="#"
+                      onClick={() => onWikiTypeClick(enums.wikiType.page)}
+                    >
                       {localeHelper.translate(
                         "pages.wiki.add-new-modal.wiki-type-dropdown.page"
                       )}
-                    </a>
+                    </Anchor>
                   </div>
                 </div>
               </div>
