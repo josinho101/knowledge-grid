@@ -39,7 +39,7 @@ const WikiTree: React.FC<Props> = (props) => {
       return (
         <TreeItem
           key={wiki.id}
-          nodeId={wiki.id}
+          nodeId={wiki.id!}
           label={wiki.title}
           endIcon={endIcon}
         >

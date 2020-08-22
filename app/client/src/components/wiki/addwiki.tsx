@@ -19,6 +19,7 @@ interface Props {
 
 const AddWiki: React.FC<Props> = (props) => {
   const [wikiType, setWikiType] = useState(0);
+  const [wikiTitle, setWikiTitle] = useState("");
   const selectedWikiId = useSelector(
     (state: AppState) => state.data.selectedWikiId
   );
@@ -49,14 +50,51 @@ const AddWiki: React.FC<Props> = (props) => {
     setWikiType(type);
   };
 
+  const onWikiTitleChange = (title: string) => {
+    setWikiTitle(title);
+  };
+
+  const onCancelClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    setWikiTitle("");
+    setWikiType(0);
+    props.onCancelClick(e);
+  };
+
+  const onSaveClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    const wiki: Wiki = {
+      title: wikiTitle,
+      type: wikiType,
+      parentId: selectedWikiId,
+    };
+    console.log(wiki);
+    props.onSaveClick(e);
+  };
+
+  const getWikiTypeTitle = (type: enums.wikiType) => {
+    switch (type) {
+      case enums.wikiType.folder:
+        return localeHelper.translate(
+          "pages.wiki.add-new-modal.wiki-type-dropdown.folder"
+        );
+      case enums.wikiType.page:
+        return localeHelper.translate(
+          "pages.wiki.add-new-modal.wiki-type-dropdown.page"
+        );
+      default:
+        return localeHelper.translate(
+          "pages.wiki.add-new-modal.wiki-type-dropdown.none"
+        );
+    }
+  };
+
   return (
     <CommonModal
       size="lg"
       isOpen={props.isOpen}
       id="add-new-wiki-modal"
-      closeButtonClickHandler={props.onCancelClick}
-      primaryButtonClickHandler={props.onSaveClick}
-      secondaryButtonClickHandler={props.onCancelClick}
+      closeButtonClickHandler={onCancelClick}
+      primaryButtonClickHandler={onSaveClick}
+      secondaryButtonClickHandler={onCancelClick}
       primaryButtonText={localeHelper.translate(
         "pages.wiki.add-new-modal.save-btn"
       )}
@@ -95,9 +133,7 @@ const AddWiki: React.FC<Props> = (props) => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    {localeHelper.translate(
-                      "pages.wiki.add-new-modal.wiki-type-dropdown.none"
-                    )}
+                    {getWikiTypeTitle(0)}
                   </a>
 
                   <div
@@ -109,18 +145,14 @@ const AddWiki: React.FC<Props> = (props) => {
                       href="#"
                       onClick={() => onWikiTypeClick(enums.wikiType.folder)}
                     >
-                      {localeHelper.translate(
-                        "pages.wiki.add-new-modal.wiki-type-dropdown.folder"
-                      )}
+                      {getWikiTypeTitle(enums.wikiType.folder)}
                     </Anchor>
                     <Anchor
                       className="dropdown-item"
                       href="#"
                       onClick={() => onWikiTypeClick(enums.wikiType.page)}
                     >
-                      {localeHelper.translate(
-                        "pages.wiki.add-new-modal.wiki-type-dropdown.page"
-                      )}
+                      {getWikiTypeTitle(enums.wikiType.page)}
                     </Anchor>
                   </div>
                 </div>
@@ -133,7 +165,14 @@ const AddWiki: React.FC<Props> = (props) => {
             <label className="col-form-label">
               {localeHelper.translate("pages.wiki.add-new-modal.wiki-title")}
             </label>
-            <Textbox id="wiki-title" type="text" className="form-control" />
+            <Textbox
+              id="wiki-title"
+              type="text"
+              className="form-control"
+              onChange={(e) => {
+                onWikiTitleChange(e.target.value);
+              }}
+            />
           </div>
           <div className="form-group">
             <div className="m-4">
