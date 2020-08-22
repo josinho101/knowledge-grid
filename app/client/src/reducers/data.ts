@@ -47,6 +47,7 @@ export default (state: Data = initialState, action: WikiAction): Data => {
         expandedWikiIds: wikiIds,
       };
     }
+    case WikiActionTypes.SAVE_NEW_WIKI_SUCCESS:
     case WikiActionTypes.WIKI_TREE_RECEIVED:
     case WikiActionTypes.WIKI_TREE_RETRIEVAL_FAILED:
     case WikiActionTypes.WIKI_TREE_RETRIEVAL_INITIATED: {
