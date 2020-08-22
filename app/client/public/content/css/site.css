@@ -143,6 +143,7 @@
 .wiki-nav-controls {
   text-align: right;
   margin-bottom: 3px;
+  margin-right: 10px;
 }
 
 .wiki-nav-btn {
@@ -152,4 +153,12 @@
 
 .wiki-nav-btn:hover {
   background-color: #e6e6e6;
+}
+
+.sidebar {
+  width: 100% !important;
+}
+
+.dropdown-120p {
+  min-width: 120px;
 }
