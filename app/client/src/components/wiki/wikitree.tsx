@@ -66,7 +66,7 @@ const WikiTree: React.FC<Props> = (props) => {
       defaultCollapseIcon={<FolderOpenIcon />}
       defaultExpandIcon={<FolderIcon />}
       defaultEndIcon={<TextIcon />}
-      defaultExpanded={props.expandedWikiIds}
+      expanded={props.expandedWikiIds}
       onNodeSelect={onNodeSelect}
       onNodeToggle={onNodeToggle}
     >

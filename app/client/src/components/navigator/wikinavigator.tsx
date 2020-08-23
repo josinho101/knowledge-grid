@@ -1,16 +1,19 @@
+import * as enums from "../../enums";
 import Anchor from "../common/anchor";
 import WikiTree from "../wiki/wikitree";
 import { Wiki } from "../../models/wiki";
 import React, { useEffect } from "react";
 import { AppState } from "../../reducers";
-import { getWikiTree } from "../../actions/wiki";
 import { useSelector, connect } from "react-redux";
 import localeHelper from "../../utils/localehelper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { getWikiTree, collapseAll, expandAll } from "../../actions/wiki";
 
 interface Props {
-  getWikiTree: Function;
   wiki?: Wiki;
+  getWikiTree: Function;
+  collapseAll: Function;
+  expandAll: Function;
 }
 
 const WikiNavigator: React.FC<Props> = (props) => {
@@ -22,6 +25,32 @@ const WikiNavigator: React.FC<Props> = (props) => {
     }
   });
 
+  const getWikiFolderIds = (wiki?: Wiki, folderIds: string[] = []) => {
+    if (wiki && wiki.children) {
+      const folders = wiki.children.filter(
+        (i) => i.type === enums.wikiType.folder
+      );
+
+      if (folders && folders.length) {
+        folders.forEach((folder: Wiki) => {
+          folderIds.push(folder.id!);
+          getWikiFolderIds(folder, folderIds);
+        });
+      }
+    }
+
+    return folderIds;
+  };
+
+  const onExpandClicked = () => {
+    const wikiIds = getWikiFolderIds(props.wiki, []);
+    props.expandAll(wikiIds);
+  };
+
+  const onCollapseClicked = () => {
+    props.collapseAll();
+  };
+
   return (
     <div className="sidebar sidebar-light accordion m-2">
       <div className="wiki-nav-controls">
@@ -29,6 +58,7 @@ const WikiNavigator: React.FC<Props> = (props) => {
           id="btnExpand"
           className="wiki-nav-btn"
           title={localeHelper.translate("pages.wiki.controls.expand-btn")}
+          onClick={onExpandClicked}
         >
           <FontAwesomeIcon
             size="sm"
@@ -40,6 +70,7 @@ const WikiNavigator: React.FC<Props> = (props) => {
           id="btnCollapse"
           className="wiki-nav-btn"
           title={localeHelper.translate("pages.wiki.controls.collapse-btn")}
+          onClick={onCollapseClicked}
         >
           <FontAwesomeIcon
             size="sm"
@@ -61,6 +92,8 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = {
   getWikiTree,
+  collapseAll,
+  expandAll,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WikiNavigator);

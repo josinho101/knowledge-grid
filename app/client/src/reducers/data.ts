@@ -40,7 +40,7 @@ export default (state: Data = initialState, action: WikiAction): Data => {
       };
     }
     case WikiActionTypes.SET_EXPANDED_WIKIS: {
-      const wikiIds = payload.expandedWikiIds ? payload.expandedWikiIds : [];
+      const wikiIds = payload.expandedWikiIds || [];
       StorageHelper.set(constants.Keys.EXPANDED_WIKIS, JSON.stringify(wikiIds));
       return {
         ...state,
@@ -55,6 +55,21 @@ export default (state: Data = initialState, action: WikiAction): Data => {
         ...state,
         wikiTree: payload.wikiTree,
         status: payload.status,
+      };
+    }
+    case WikiActionTypes.EXPAND_ALL_WIKIS: {
+      const wikiIds = payload.expandedWikiIds || [];
+      StorageHelper.set(constants.Keys.EXPANDED_WIKIS, JSON.stringify(wikiIds));
+      return {
+        ...state,
+        expandedWikiIds: wikiIds,
+      };
+    }
+    case WikiActionTypes.COLLAPSE_ALL_WIKIS: {
+      StorageHelper.remove(constants.Keys.EXPANDED_WIKIS);
+      return {
+        ...state,
+        expandedWikiIds: payload.expandedWikiIds,
       };
     }
     default:

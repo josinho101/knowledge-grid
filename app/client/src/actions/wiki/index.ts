@@ -20,6 +20,8 @@ export enum WikiActionTypes {
   SAVE_NEW_WIKI_SUCCESS = "SAVE_NEW_WIKI_SUCCESS",
   SAVE_NEW_WIKI_FAILED = "SAVE_NEW_WIKI_FAILED",
   SAVE_WIKI_INITIATED = "SAVE_WIKI_INITIATED",
+  EXPAND_ALL_WIKIS = "EXPAND_ALL_WIKIS",
+  COLLAPSE_ALL_WIKIS = "COLLAPSE_ALL_WIKIS",
 }
 
 /* wiki action */
@@ -27,6 +29,28 @@ export interface WikiAction extends Base {
   type: WikiActionTypes;
   payload: Data;
 }
+
+export const collapseAll = () => {
+  return async (dispatch: Dispatch<WikiAction>) => {
+    dispatch({
+      type: WikiActionTypes.COLLAPSE_ALL_WIKIS,
+      payload: {
+        expandedWikiIds: [],
+      },
+    });
+  };
+};
+
+export const expandAll = (wikiIds: string[]) => {
+  return async (dispatch: Dispatch<WikiAction>) => {
+    dispatch({
+      type: WikiActionTypes.EXPAND_ALL_WIKIS,
+      payload: {
+        expandedWikiIds: wikiIds,
+      },
+    });
+  };
+};
 
 export const saveWiki = (wiki: Wiki, token: string) => {
   return async (dispatch: Dispatch<WikiAction>) => {
