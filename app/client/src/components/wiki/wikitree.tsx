@@ -52,7 +52,6 @@ const WikiTree: React.FC<Props> = (props) => {
   };
 
   const onNodeSelect = (e: React.ChangeEvent<{}>, nodeIds: string[]) => {
-    console.log(nodeIds);
     props.setSelectedWiki(nodeIds);
   };
 

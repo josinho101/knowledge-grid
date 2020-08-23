@@ -6,6 +6,7 @@ import Textbox from "../common/textbox";
 import { Wiki } from "../../models/wiki";
 import { AppState } from "../../reducers";
 import Checkbox from "../common/checkbox";
+import { saveWiki } from "../../actions/wiki";
 import CommonModal from "../common/commonmodal";
 import { useSelector, connect } from "react-redux";
 import localeHelper from "../../utils/localehelper";
@@ -13,6 +14,7 @@ import localeHelper from "../../utils/localehelper";
 interface Props {
   isOpen: boolean;
   wiki?: Wiki;
+  saveWiki: Function;
   onCancelClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
   onSaveClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
@@ -20,6 +22,7 @@ interface Props {
 const AddWiki: React.FC<Props> = (props) => {
   const [wikiType, setWikiType] = useState(0);
   const [wikiTitle, setWikiTitle] = useState("");
+  const token = useSelector((state: AppState) => state.auth.token);
   const selectedWikiId = useSelector(
     (state: AppState) => state.data.selectedWikiId
   );
@@ -66,7 +69,7 @@ const AddWiki: React.FC<Props> = (props) => {
       type: wikiType,
       parentId: selectedWikiId,
     };
-    console.log(wiki);
+    props.saveWiki(wiki, token);
     props.onSaveClick(e);
   };
 
@@ -125,7 +128,7 @@ const AddWiki: React.FC<Props> = (props) => {
               <div className="col">
                 <div className="dropdown">
                   <a
-                    className="btn btn-outline-secondary dropdown-toggle"
+                    className="btn btn-outline-secondary dropdown-toggle dropdown-120p"
                     href="#"
                     role="button"
                     id="dropdownMenuLink"
@@ -133,7 +136,7 @@ const AddWiki: React.FC<Props> = (props) => {
                     aria-haspopup="true"
                     aria-expanded="false"
                   >
-                    {getWikiTypeTitle(0)}
+                    {getWikiTypeTitle(wikiType)}
                   </a>
 
                   <div
@@ -199,4 +202,8 @@ const mapStateToProps = (state: AppState) => {
   };
 };
 
-export default connect(mapStateToProps, undefined)(AddWiki);
+const mapDispatchToProps = {
+  saveWiki,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddWiki);

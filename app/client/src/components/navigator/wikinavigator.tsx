@@ -17,8 +17,10 @@ const WikiNavigator: React.FC<Props> = (props) => {
   const token = useSelector((state: AppState) => state.auth.token);
 
   useEffect(() => {
-    props.getWikiTree(token);
-  }, []);
+    if (!props.wiki) {
+      props.getWikiTree(token);
+    }
+  });
 
   return (
     <div className="sidebar sidebar-light accordion m-2">
