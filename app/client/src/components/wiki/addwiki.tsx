@@ -49,6 +49,10 @@ const AddWiki: React.FC<Props> = (props) => {
     }
   };
 
+  const enableSave = () => {
+    return wikiType != 0 && wikiTitle !== undefined && wikiTitle.trim() !== "";
+  };
+
   const onWikiTypeClick = (type: enums.wikiType) => {
     setWikiType(type);
   };
@@ -105,6 +109,7 @@ const AddWiki: React.FC<Props> = (props) => {
         "pages.wiki.add-new-modal.cancel-btn"
       )}
       title={localeHelper.translate("pages.wiki.add-new-modal.title")}
+      disablePrimaryButton={!enableSave()}
     >
       <div className="wiki-add-container">
         <div className="wiki-add-left-pane">
@@ -131,7 +136,6 @@ const AddWiki: React.FC<Props> = (props) => {
                     className="btn btn-outline-secondary dropdown-toggle dropdown-120p"
                     href="#"
                     role="button"
-                    id="dropdownMenuLink"
                     data-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false"
@@ -172,6 +176,7 @@ const AddWiki: React.FC<Props> = (props) => {
               id="wiki-title"
               type="text"
               className="form-control"
+              maxLength={100}
               onChange={(e) => {
                 onWikiTitleChange(e.target.value);
               }}

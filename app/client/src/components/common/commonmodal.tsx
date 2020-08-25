@@ -11,6 +11,7 @@ interface Props {
   bodyClassName?: string;
   secondaryButtonText: string;
   primaryButtonText: string;
+  disablePrimaryButton?: boolean;
   closeButtonClickHandler: (
     event: React.MouseEvent<HTMLElement, MouseEvent>
   ) => void;
@@ -47,6 +48,7 @@ const CommonModal: React.FunctionComponent<Props> = (props) => {
           variant="primary"
           size="sm"
           onClick={props.primaryButtonClickHandler}
+          disabled={props.disablePrimaryButton}
         >
           {props.primaryButtonText}
         </Button>
