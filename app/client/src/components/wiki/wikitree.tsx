@@ -15,7 +15,7 @@ interface Props {
   className: string;
   wikis?: Wiki[];
   expandedWikiIds?: string[];
-  selectedWikiId?: string[];
+  selectedWikiId?: string;
   setExpandedWikis: Function;
   setSelectedWiki: Function;
 }
@@ -61,7 +61,7 @@ const WikiTree: React.FC<Props> = (props) => {
 
   return props.wikis ? (
     <TreeView
-      selected={props.selectedWikiId}
+      selected={[props.selectedWikiId || ""]}
       className={props.className}
       defaultCollapseIcon={<FolderOpenIcon />}
       defaultExpandIcon={<FolderIcon />}
@@ -80,7 +80,7 @@ const WikiTree: React.FC<Props> = (props) => {
 const mapStateToProps = (state: AppState) => {
   return {
     expandedWikiIds: state.data.expandedWikiIds,
-    selectedWikiIds: state.data.selectedWikiId,
+    selectedWikiId: state.data.selectedWikiId,
   };
 };
 
