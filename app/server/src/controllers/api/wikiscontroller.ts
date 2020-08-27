@@ -6,7 +6,10 @@ import ApiResult from "../../models/ApiResult";
 import wikiService from "../../services/wikiservice";
 import { Request, Response } from "../../types/express";
 import authorize from "../../middlewares/authmiddleware";
-import { createWikiValidator } from "../../validators/wikivalidator";
+import {
+  createWikiValidator as createValidator,
+  updateWikiValidator as updateValidator,
+} from "../../validators/wikivalidator";
 
 class WikisController extends Controller {
   constructor() {
@@ -15,13 +18,37 @@ class WikisController extends Controller {
   }
 
   protected mapRoute() {
-    this.router.get("/", authorize, this.get);
-    this.router.post("/", authorize, createWikiValidator, this.createWiki);
+    this.router.get("/", authorize, this.getWiki);
+    this.router.post("/", authorize, createValidator, this.createWiki);
+    this.router.put("/:wikiId", authorize, updateValidator, this.updateWiki);
   }
 
-  private get = async (req: Request, res: Response) => {
+  /**
+   * get wiki tree
+   */
+  private getWiki = async (req: Request, res: Response) => {
     const root = await wikiService.getWikiTree();
     return res.status(httpStatus.OK).json({ data: root } as ApiResult);
+  };
+
+  /**
+   * update wiki
+   */
+  private updateWiki = async (req: Request, res: Response) => {
+    try {
+      const errors = this.validationResult(req);
+      if (errors.length) {
+        return res
+          .status(httpStatus.BAD_REQUEST)
+          .json({ errors: errors } as ApiResult);
+      }
+      return res.status(httpStatus.OK).json({ data: "" } as ApiResult);
+    } catch (e) {
+      logger.error(JSON.stringify(e));
+      return res
+        .status(httpStatus.INTERNAL_SERVER_ERROR)
+        .json({ errors: "Server Error" } as ApiResult);
+    }
   };
 
   /**

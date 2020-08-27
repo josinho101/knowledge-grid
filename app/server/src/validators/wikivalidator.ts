@@ -7,6 +7,10 @@ export const WikiProps = {
   TITLE: "title",
 };
 
+export const updateWikiValidator = (() => {
+  return [];
+})();
+
 export const createWikiValidator = (() => {
   return [
     check(WikiProps.PARENT_ID, "Parent wiki id is required").not().isEmpty(),
