@@ -7,8 +7,8 @@ import wikiService from "../../services/wikiservice";
 import { Request, Response } from "../../types/express";
 import authorize from "../../middlewares/authmiddleware";
 import {
-  createWikiValidator as createValidator,
-  updateWikiValidator as updateValidator,
+  createValidator,
+  updateValidator,
 } from "../../validators/wikivalidator";
 
 class WikisController extends Controller {
@@ -42,7 +42,29 @@ class WikisController extends Controller {
           .status(httpStatus.BAD_REQUEST)
           .json({ errors: errors } as ApiResult);
       }
-      return res.status(httpStatus.OK).json({ data: "" } as ApiResult);
+
+      const wikiId = req.params["wikiId"];
+      const { content } = req.body;
+      const updatedBy = req.user?.id;
+
+      const wiki = new Wiki({
+        content,
+        updatedBy,
+        _id: wikiId,
+      });
+
+      const result = await wikiService.updateWiki(wiki);
+      if (!result.status) {
+        return res
+          .status(httpStatus.NOT_FOUND)
+          .json({ error: [result.error] } as ApiResult);
+      }
+
+      logger.info(`wiki with id ${wikiId} updated by ${updatedBy}`);
+
+      return res
+        .status(httpStatus.OK)
+        .json({ data: "wiki updated" } as ApiResult);
     } catch (e) {
       logger.error(JSON.stringify(e));
       return res

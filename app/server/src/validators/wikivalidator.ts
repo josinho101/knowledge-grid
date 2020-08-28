@@ -5,13 +5,14 @@ export const WikiProps = {
   PARENT_ID: "parentId",
   TYPE: "type",
   TITLE: "title",
+  CONTENT: "content",
 };
 
-export const updateWikiValidator = (() => {
-  return [];
+export const updateValidator = (() => {
+  return [check(WikiProps.CONTENT, "Wiki content is required").not().isEmpty()];
 })();
 
-export const createWikiValidator = (() => {
+export const createValidator = (() => {
   return [
     check(WikiProps.PARENT_ID, "Parent wiki id is required").not().isEmpty(),
     check(

@@ -9,13 +9,17 @@ export interface IWiki extends mongoose.Document {
   createdDate: Date;
   updatedDate: Date;
   createdBy: string;
+  updatedBy: string;
+  content: string;
 }
 
 const WikiSchema = new mongoose.Schema({
   parentId: { type: Schema.Types.ObjectId, ref: "wikis", required: true },
   createdBy: { type: Schema.Types.ObjectId, ref: "users", required: true },
+  updatedBy: { type: Schema.Types.ObjectId, ref: "users", required: true },
   type: { type: enums.wikiType },
   title: { type: String, required: true },
+  content: { type: String },
   createdDate: { type: Date },
   updatedDate: { type: Date, default: Date.now() },
   status: { type: Number, select: false, default: enums.status.none },

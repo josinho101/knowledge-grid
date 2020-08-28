@@ -24,6 +24,32 @@ class WikiService {
   };
 
   /**
+   * update wiki
+   * @param wiki wiki to update
+   */
+  public updateWiki = async (wiki: IWiki) => {
+    let status = false;
+    let error: Error = {};
+    let failureMessage = "wiki not found";
+
+    try {
+      const dbWiki = await this.getById(wiki._id);
+      if (!dbWiki) {
+        error.message = failureMessage;
+      } else {
+        dbWiki.content = wiki.content;
+        dbWiki.updatedBy = wiki.updatedBy;
+        await dbWiki.save();
+        status = true;
+      }
+    } catch (e) {
+      error.message = e.message;
+    }
+
+    return { status, error };
+  };
+
+  /**
    * create new wiki
    * @param wiki wiki object
    */
