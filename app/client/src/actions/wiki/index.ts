@@ -22,6 +22,9 @@ export enum WikiActionTypes {
   SAVE_WIKI_INITIATED = "SAVE_WIKI_INITIATED",
   EXPAND_ALL_WIKIS = "EXPAND_ALL_WIKIS",
   COLLAPSE_ALL_WIKIS = "COLLAPSE_ALL_WIKIS",
+  UPDATE_WIKI_INITIATED = "UPDATE_WIKI_INITIATED",
+  UPDATE_WIKI_FAILED = "UPDATE_WIKI_FAILED",
+  UPDATE_WIKI_SUCCESS = "UPDATE_WIKI_SUCCESS",
 }
 
 /* wiki action */
@@ -126,5 +129,39 @@ export const getWikiTree = (token: string) => {
         status: status,
       },
     });
+  };
+};
+
+export const updateWiki = (token: string, wiki: Wiki) => {
+  return async (dispatch: Dispatch<WikiAction>) => {
+    dispatch({
+      type: WikiActionTypes.UPDATE_WIKI_INITIATED,
+      payload: {
+        updateWikiStatus: enums.RequestStatus.initiated,
+      },
+    });
+
+    const url = settings.baseUrl + urls.WIKIS + "/" + wiki.id;
+    const response = await RequestHandler.put(
+      url,
+      { content: wiki.content },
+      token
+    );
+
+    if (response?.status === httpStatus.OK) {
+      dispatch({
+        type: WikiActionTypes.UPDATE_WIKI_SUCCESS,
+        payload: {
+          updateWikiStatus: enums.RequestStatus.success,
+        },
+      });
+    } else {
+      dispatch({
+        type: WikiActionTypes.UPDATE_WIKI_FAILED,
+        payload: {
+          updateWikiStatus: enums.RequestStatus.failed,
+        },
+      });
+    }
   };
 };

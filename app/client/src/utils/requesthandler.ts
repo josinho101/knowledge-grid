@@ -35,4 +35,19 @@ export default class RequestHandler {
       return e.response;
     }
   };
+
+  /**
+   * put request handler
+   * @param url url
+   * @param data data for put
+   */
+  public static put = async (url: string, data: any, token?: string) => {
+    try {
+      RequestHandler.setAuthHeader(token!);
+      return await axios.put(url, data);
+    } catch (e) {
+      console.error(e);
+      return e.response;
+    }
+  };
 }

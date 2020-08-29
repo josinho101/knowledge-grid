@@ -12,6 +12,7 @@ export interface Data {
   selectedWikiId?: string;
   expandedWikiIds?: string[];
   status?: enums.RequestStatus;
+  updateWikiStatus?: enums.RequestStatus;
 }
 
 const selectedWikiId = StorageHelper.get(constants.Keys.SELECTED_WIKI);
@@ -25,6 +26,7 @@ const initialState: Data = {
   selectedWikiId: selectedWikiId || undefined,
   expandedWikiIds: expandedWikiIds ? JSON.parse(expandedWikiIds) : [],
   status: enums.RequestStatus.none,
+  updateWikiStatus: enums.RequestStatus.none,
 };
 
 export default (state: Data = initialState, action: WikiAction): Data => {
@@ -70,6 +72,14 @@ export default (state: Data = initialState, action: WikiAction): Data => {
       return {
         ...state,
         expandedWikiIds: payload.expandedWikiIds,
+      };
+    }
+    case WikiActionTypes.UPDATE_WIKI_FAILED:
+    case WikiActionTypes.UPDATE_WIKI_SUCCESS:
+    case WikiActionTypes.UPDATE_WIKI_INITIATED: {
+      return {
+        ...state,
+        updateWikiStatus: payload.updateWikiStatus,
       };
     }
     default:

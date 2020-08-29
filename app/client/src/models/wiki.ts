@@ -6,4 +6,5 @@ export interface Wiki {
   type: enums.wikiType;
   title: string;
   children?: Wiki[];
+  content?: string;
 }
