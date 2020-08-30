@@ -89,9 +89,10 @@ class WikisController extends Controller {
       const createdBy = req.user?.id;
       const wiki = new Wiki({
         parentId,
-        createdBy,
         type,
         title,
+        createdBy,
+        updatedBy: createdBy,
       });
 
       const result = await wikiService.createWiki(wiki);

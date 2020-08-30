@@ -162,3 +162,11 @@
 .dropdown-120p {
   min-width: 120px;
 }
+
+.dropdown-danger {
+  color: #f54052;
+}
+
+.dropdown-danger:hover {
+  color: #ef0018;
+}

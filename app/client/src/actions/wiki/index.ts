@@ -82,12 +82,12 @@ export const saveWiki = (wiki: Wiki, token: string) => {
   };
 };
 
-export const setSelectedWiki = (wikiId: string) => {
+export const setSelectedWiki = (wiki: Wiki) => {
   return async (dispatch: Dispatch<WikiAction>) => {
     dispatch({
       type: WikiActionTypes.SET_SELECTED_WIKI,
       payload: {
-        selectedWikiId: wikiId,
+        selectedWiki: wiki,
       },
     });
   };

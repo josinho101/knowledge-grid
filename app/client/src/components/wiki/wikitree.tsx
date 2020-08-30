@@ -1,11 +1,12 @@
 import React from "react";
 import * as enums from "../../enums";
-import { connect } from "react-redux";
 import Spinner from "../common/spinner";
 import { Wiki } from "../../models/wiki";
 import { AppState } from "../../reducers";
+import wikiHelper from "../../utils/wikihelper";
 import TreeItem from "@material-ui/lab/TreeItem";
 import TreeView from "@material-ui/lab/TreeView";
+import { connect, useSelector } from "react-redux";
 import FolderIcon from "@material-ui/icons/Folder";
 import FolderOpenIcon from "@material-ui/icons/FolderOpenTwoTone";
 import SvgIcon, { SvgIconProps } from "@material-ui/core/SvgIcon";
@@ -15,12 +16,14 @@ interface Props {
   className: string;
   wikis?: Wiki[];
   expandedWikiIds?: string[];
-  selectedWikiId?: string;
+  selectedWiki?: Wiki;
   setExpandedWikis: Function;
   setSelectedWiki: Function;
 }
 
 const WikiTree: React.FC<Props> = (props) => {
+  const wikiTree = useSelector((state: AppState) => state.data.wikiTree);
+
   const TextIcon = (props: SvgIconProps) => {
     return (
       <SvgIcon fontSize="inherit" style={{ width: 18, height: 18 }} {...props}>
@@ -51,8 +54,9 @@ const WikiTree: React.FC<Props> = (props) => {
     });
   };
 
-  const onNodeSelect = (e: React.ChangeEvent<{}>, nodeIds: string[]) => {
-    props.setSelectedWiki(nodeIds);
+  const onNodeSelect = (e: React.ChangeEvent<{}>, nodeId: any) => {
+    const selectedWiki = wikiHelper.getSelectedWiki(nodeId, wikiTree);
+    props.setSelectedWiki(selectedWiki);
   };
 
   const onNodeToggle = (e: React.ChangeEvent<{}>, nodeIds: string[]) => {
@@ -61,7 +65,7 @@ const WikiTree: React.FC<Props> = (props) => {
 
   return props.wikis ? (
     <TreeView
-      selected={[props.selectedWikiId || ""]}
+      selected={[props.selectedWiki?.id || ""]}
       className={props.className}
       defaultCollapseIcon={<FolderOpenIcon />}
       defaultExpandIcon={<FolderIcon />}
@@ -80,7 +84,7 @@ const WikiTree: React.FC<Props> = (props) => {
 const mapStateToProps = (state: AppState) => {
   return {
     expandedWikiIds: state.data.expandedWikiIds,
-    selectedWikiId: state.data.selectedWikiId,
+    selectedWiki: state.data.selectedWiki,
   };
 };
 

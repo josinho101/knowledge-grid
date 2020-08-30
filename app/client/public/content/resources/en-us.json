@@ -74,11 +74,12 @@
       },
       "add-new-btn": "New",
       "edit-btn": "Edit",
+      "delete-btn": "Delete",
       "add-new-modal": {
         "title": "Add new wiki",
         "save-btn": "Save",
         "cancel-btn": "Cancel",
-        "parent": "Parent",
+        "parent": "Parent folder",
         "wiki-type": "Wiki type",
         "wiki-title": "Wiki title",
         "edit-on-save": "Edit on save",

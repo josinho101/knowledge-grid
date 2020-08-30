@@ -23,31 +23,9 @@ const AddWiki: React.FC<Props> = (props) => {
   const [wikiType, setWikiType] = useState(0);
   const [wikiTitle, setWikiTitle] = useState("");
   const token = useSelector((state: AppState) => state.auth.token);
-  const selectedWikiId = useSelector(
-    (state: AppState) => state.data.selectedWikiId
+  const selectedWiki = useSelector(
+    (state: AppState) => state.data.selectedWiki
   );
-
-  const findWiki = (wikiId?: string, tree?: Wiki): Wiki | undefined => {
-    if (tree && tree.children) {
-      const folders = tree.children.filter(
-        (i) => i.type === enums.wikiType.folder
-      );
-
-      if (folders) {
-        const result = folders.filter((i) => i.id === wikiId);
-        if (result && result.length > 0) {
-          return result[0];
-        } else {
-          for (let i = 0; i < folders.length; i++) {
-            const wiki = findWiki(wikiId, folders[i]);
-            if (wiki) {
-              return wiki;
-            }
-          }
-        }
-      }
-    }
-  };
 
   const enableSave = () => {
     return wikiType != 0 && wikiTitle !== undefined && wikiTitle.trim() !== "";
@@ -71,7 +49,7 @@ const AddWiki: React.FC<Props> = (props) => {
     const wiki: Wiki = {
       title: wikiTitle,
       type: wikiType,
-      parentId: selectedWikiId,
+      parentId: selectedWiki?.id,
     };
     props.saveWiki(wiki, token);
     props.onSaveClick(e);
@@ -121,7 +99,7 @@ const AddWiki: React.FC<Props> = (props) => {
               {localeHelper.translate("pages.wiki.add-new-modal.parent")} -
               &nbsp;
             </label>
-            <b>{findWiki(selectedWikiId, props.wiki)?.title}</b>
+            <b>{selectedWiki?.title}</b>
           </div>
           <div className="form-group">
             <div className="form-row">
@@ -203,7 +181,6 @@ const AddWiki: React.FC<Props> = (props) => {
 const mapStateToProps = (state: AppState) => {
   return {
     wiki: state.data.wikiTree,
-    selectedWikiId: state.data.selectedWikiId,
   };
 };
 

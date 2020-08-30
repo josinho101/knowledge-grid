@@ -9,13 +9,13 @@ import { WikiActionTypes, WikiAction } from "../actions/wiki";
  */
 export interface Data {
   wikiTree?: Wiki;
-  selectedWikiId?: string;
+  selectedWiki?: Wiki;
   expandedWikiIds?: string[];
   status?: enums.RequestStatus;
   updateWikiStatus?: enums.RequestStatus;
 }
 
-const selectedWikiId = StorageHelper.get(constants.Keys.SELECTED_WIKI);
+const selectedWiki = StorageHelper.get(constants.Keys.SELECTED_WIKI);
 const expandedWikiIds = StorageHelper.get(constants.Keys.EXPANDED_WIKIS);
 
 /**
@@ -23,7 +23,7 @@ const expandedWikiIds = StorageHelper.get(constants.Keys.EXPANDED_WIKIS);
  */
 const initialState: Data = {
   wikiTree: undefined!,
-  selectedWikiId: selectedWikiId || undefined,
+  selectedWiki: selectedWiki ? JSON.parse(selectedWiki) : undefined,
   expandedWikiIds: expandedWikiIds ? JSON.parse(expandedWikiIds) : [],
   status: enums.RequestStatus.none,
   updateWikiStatus: enums.RequestStatus.none,
@@ -34,11 +34,14 @@ export default (state: Data = initialState, action: WikiAction): Data => {
 
   switch (action.type) {
     case WikiActionTypes.SET_SELECTED_WIKI: {
-      const wikiId = payload.selectedWikiId;
-      StorageHelper.set(constants.Keys.SELECTED_WIKI, wikiId);
+      const selectedWiki = payload.selectedWiki;
+      StorageHelper.set(
+        constants.Keys.SELECTED_WIKI,
+        JSON.stringify(selectedWiki)
+      );
       return {
         ...state,
-        selectedWikiId: wikiId,
+        selectedWiki: selectedWiki,
       };
     }
     case WikiActionTypes.SET_EXPANDED_WIKIS: {

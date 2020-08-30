@@ -49,6 +49,9 @@ const WikiPage: React.FC = () => {
           <Dropdown.Item onClick={onAddNewClick}>
             {localeHelper.translate("pages.wiki.add-new-btn")}
           </Dropdown.Item>
+          <Dropdown.Item className="dropdown-danger">
+            {localeHelper.translate("pages.wiki.delete-btn")}
+          </Dropdown.Item>
         </DropdownButton>
         <AddWiki
           isOpen={doShowAddNewModal}
