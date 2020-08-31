@@ -1,4 +1,5 @@
 import Wiki from "../../models/Wiki";
+import Error from "../../models/error";
 import logger from "../../utils/logger";
 import Controller from "./base/controller";
 import httpStatus from "http-status-codes";
@@ -6,10 +7,7 @@ import ApiResult from "../../models/ApiResult";
 import wikiService from "../../services/wikiservice";
 import { Request, Response } from "../../types/express";
 import authorize from "../../middlewares/authmiddleware";
-import {
-  createValidator,
-  updateValidator,
-} from "../../validators/wikivalidator";
+import { createValidator } from "../../validators/wikivalidator";
 
 class WikisController extends Controller {
   constructor() {
@@ -18,15 +16,32 @@ class WikisController extends Controller {
   }
 
   protected mapRoute() {
-    this.router.get("/", authorize, this.getWiki);
+    this.router.get("/", authorize, this.getWikiTree);
     this.router.post("/", authorize, createValidator, this.createWiki);
-    this.router.put("/:wikiId", authorize, updateValidator, this.updateWiki);
+    this.router.put("/:wikiId", authorize, this.updateWiki);
+    this.router.get("/:wikiId", authorize, this.getWiki);
   }
+
+  /**
+   * get wiki
+   */
+  private getWiki = async (req: Request, res: Response) => {
+    const wikiId = req.params["wikiId"];
+    const wiki = await wikiService.getById(wikiId);
+    if (!wiki) {
+      let error: Error = { message: "Wiki not found" };
+      return res
+        .status(httpStatus.NOT_FOUND)
+        .json({ error: [error] } as ApiResult);
+    }
+
+    return res.status(httpStatus.OK).json({ data: wiki } as ApiResult);
+  };
 
   /**
    * get wiki tree
    */
-  private getWiki = async (req: Request, res: Response) => {
+  private getWikiTree = async (req: Request, res: Response) => {
     const root = await wikiService.getWikiTree();
     return res.status(httpStatus.OK).json({ data: root } as ApiResult);
   };
@@ -36,18 +51,12 @@ class WikisController extends Controller {
    */
   private updateWiki = async (req: Request, res: Response) => {
     try {
-      const errors = this.validationResult(req);
-      if (errors.length) {
-        return res
-          .status(httpStatus.BAD_REQUEST)
-          .json({ errors: errors } as ApiResult);
-      }
-
       const wikiId = req.params["wikiId"];
-      const { content } = req.body;
+      const { content, title } = req.body;
       const updatedBy = req.user?.id;
 
       const wiki = new Wiki({
+        title,
         content,
         updatedBy,
         _id: wikiId,

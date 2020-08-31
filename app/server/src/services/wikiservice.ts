@@ -37,6 +37,7 @@ class WikiService {
       if (!dbWiki) {
         error.message = failureMessage;
       } else {
+        dbWiki.title = wiki.title;
         dbWiki.content = wiki.content;
         dbWiki.updatedBy = wiki.updatedBy;
         await dbWiki.save();
