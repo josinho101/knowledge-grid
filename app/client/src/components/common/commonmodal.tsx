@@ -6,7 +6,7 @@ interface Props {
   id: string;
   isOpen: boolean;
   title: string;
-  size?: "lg";
+  size?: "lg" | "sm";
   dialogClassName?: string;
   bodyClassName?: string;
   secondaryButtonText: string;

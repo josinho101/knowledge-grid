@@ -7,11 +7,13 @@ interface Props {
   placeholder?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   maxLength?: number;
+  value?: string;
+  autocomplete?: boolean;
 }
 
 const Textbox: React.FunctionComponent<Props> = (props) => {
-  const [value, setValue] = useState("");
-  const { id, type, className, placeholder, maxLength } = props;
+  const [value, setValue] = useState(props.value || "");
+  const { id, type, className, placeholder, maxLength, autocomplete } = props;
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
@@ -30,6 +32,7 @@ const Textbox: React.FunctionComponent<Props> = (props) => {
       placeholder={placeholder}
       onChange={onChange}
       maxLength={maxLength}
+      autoComplete={autocomplete ? "on" : "off"}
     />
   );
 };

@@ -1,4 +1,5 @@
 import React from "react";
+import localeHelper from "../../utils/localehelper";
 
 const Footer: React.FunctionComponent = () => {
   const date = new Date();
@@ -8,7 +9,9 @@ const Footer: React.FunctionComponent = () => {
     <footer className="sticky-footer bg-white">
       <div className="container my-auto">
         <div className="copyright text-center my-auto">
-          <span>{`Copyright © Sentinel ${year}`}</span>
+          <span>{`${localeHelper.translate(
+            "pages.common.footer.copyright"
+          )} ${year}`}</span>
         </div>
       </div>
     </footer>

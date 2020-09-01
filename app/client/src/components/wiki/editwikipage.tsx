@@ -15,7 +15,7 @@ interface Props {
   onSaveClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 
-const EditWiki: React.FC<Props> = (props) => {
+const EditWikiPage: React.FC<Props> = (props) => {
   const [doShowLoader, setShowLoader] = useState(true);
   const [wikiContent, setWikiContent] = useState("");
   const token = useSelector((state: AppState) => state.auth.token);
@@ -36,6 +36,7 @@ const EditWiki: React.FC<Props> = (props) => {
     const wiki: Wiki = {
       id: selectedWiki?.id,
       content: wikiContent,
+      title: selectedWiki?.title,
     };
     props.updateWiki(token, wiki);
     props.onSaveClick(e);
@@ -95,4 +96,4 @@ const mapDispatchToProps = {
   updateWiki,
 };
 
-export default connect(undefined, mapDispatchToProps)(EditWiki);
+export default connect(undefined, mapDispatchToProps)(EditWikiPage);

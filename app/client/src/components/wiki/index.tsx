@@ -1,39 +1,48 @@
 import AddWiki from "./addwiki";
-import EditWiki from "./editwiki";
+import * as enums from "../../enums";
 import React, { useState } from "react";
+import EditWikiPage from "./editwikipage";
+import { useSelector } from "react-redux";
+import { AppState } from "../../reducers";
+import EditWikiFolder from "./editwikifolder";
 import Dropdown from "react-bootstrap/esm/Dropdown";
 import localeHelper from "../../utils/localehelper";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import { DropdownItemProps } from "react-bootstrap/esm/DropdownItem";
 
 const WikiPage: React.FC = () => {
+  const selectedWiki = useSelector(
+    (state: AppState) => state.data.selectedWiki
+  );
   const [doShowAddNewModal, setShowAddNewModal] = useState(false);
-  const [doShowEditModal, setShowEditModal] = useState(false);
+  const [doShowEditWikiPageModal, setShowEditWikiPageModal] = useState(false);
+  const [doShowEditWikiFolderModal, setShowEditWikiFolderModal] = useState(
+    false
+  );
 
-  const onAddNewClick = (
-    e: React.MouseEvent<DropdownItemProps, MouseEvent>
-  ) => {
+  const onAddNewClick = () => {
     setShowAddNewModal(true);
   };
 
-  const onCancelClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+  const onEditWikiClick = () => {
+    if (selectedWiki?.type === enums.wikiType.page) {
+      setShowEditWikiPageModal(true);
+    } else {
+      setShowEditWikiFolderModal(true);
+    }
+  };
+
+  const onDeleteWikiClick = () => {};
+
+  const hideAddWikiModal = () => {
     setShowAddNewModal(false);
   };
 
-  const onSaveClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    setShowAddNewModal(false);
+  const hideWikiPageEditModal = () => {
+    setShowEditWikiPageModal(false);
   };
 
-  const onEditClick = (e: React.MouseEvent<DropdownItemProps, MouseEvent>) => {
-    setShowEditModal(true);
-  };
-
-  const onEditCancelClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    setShowEditModal(false);
-  };
-
-  const onEditSaveClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-    setShowEditModal(false);
+  const hideWikiFolderEditModal = () => {
+    setShowEditWikiFolderModal(false);
   };
 
   return (
@@ -43,25 +52,33 @@ const WikiPage: React.FC = () => {
           {localeHelper.translate("pages.wiki.default-title")}
         </h1>
         <DropdownButton id="dropdown-basic-button" title="Actions" size="sm">
-          <Dropdown.Item onClick={onEditClick}>
+          <Dropdown.Item onClick={onEditWikiClick}>
             {localeHelper.translate("pages.wiki.edit-btn")}
           </Dropdown.Item>
           <Dropdown.Item onClick={onAddNewClick}>
             {localeHelper.translate("pages.wiki.add-new-btn")}
           </Dropdown.Item>
-          <Dropdown.Item className="dropdown-danger">
+          <Dropdown.Item
+            className="dropdown-danger"
+            onClick={onDeleteWikiClick}
+          >
             {localeHelper.translate("pages.wiki.delete-btn")}
           </Dropdown.Item>
         </DropdownButton>
         <AddWiki
           isOpen={doShowAddNewModal}
-          onSaveClick={onSaveClick}
-          onCancelClick={onCancelClick}
+          onSaveClick={hideAddWikiModal}
+          onCancelClick={hideAddWikiModal}
         />
-        <EditWiki
-          isOpen={doShowEditModal}
-          onSaveClick={onEditSaveClick}
-          onCancelClick={onEditCancelClick}
+        <EditWikiPage
+          isOpen={doShowEditWikiPageModal}
+          onSaveClick={hideWikiPageEditModal}
+          onCancelClick={hideWikiPageEditModal}
+        />
+        <EditWikiFolder
+          isOpen={doShowEditWikiFolderModal}
+          onSaveClick={hideWikiFolderEditModal}
+          onCancelClick={hideWikiFolderEditModal}
         />
       </div>
       <p>{localeHelper.translate("pages.wiki.default-content")}</p>

@@ -132,7 +132,11 @@ export const getWikiTree = (token: string) => {
   };
 };
 
-export const updateWiki = (token: string, wiki: Wiki) => {
+export const updateWiki = (
+  token: string,
+  wiki: Wiki,
+  doClearWikiTree: boolean = false
+) => {
   return async (dispatch: Dispatch<WikiAction>) => {
     dispatch({
       type: WikiActionTypes.UPDATE_WIKI_INITIATED,
@@ -142,11 +146,7 @@ export const updateWiki = (token: string, wiki: Wiki) => {
     });
 
     const url = settings.baseUrl + urls.WIKIS + "/" + wiki.id;
-    const response = await RequestHandler.put(
-      url,
-      { content: wiki.content },
-      token
-    );
+    const response = await RequestHandler.put(url, wiki, token);
 
     if (response?.status === httpStatus.OK) {
       dispatch({
@@ -155,6 +155,15 @@ export const updateWiki = (token: string, wiki: Wiki) => {
           updateWikiStatus: enums.RequestStatus.success,
         },
       });
+      if (doClearWikiTree) {
+        dispatch({
+          type: WikiActionTypes.WIKI_TREE_RETRIEVAL_INITIATED,
+          payload: {
+            wikiTree: undefined!,
+            status: enums.RequestStatus.initiated,
+          },
+        });
+      }
     } else {
       dispatch({
         type: WikiActionTypes.UPDATE_WIKI_FAILED,
