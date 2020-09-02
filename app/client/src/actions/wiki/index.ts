@@ -25,6 +25,9 @@ export enum WikiActionTypes {
   UPDATE_WIKI_INITIATED = "UPDATE_WIKI_INITIATED",
   UPDATE_WIKI_FAILED = "UPDATE_WIKI_FAILED",
   UPDATE_WIKI_SUCCESS = "UPDATE_WIKI_SUCCESS",
+  GET_WIKI_CONTENT_INITIATED = "GET_WIKI_CONTENT_INITIATED",
+  GET_WIKI_CONTENT_FAILED = "GET_WIKI_CONTENT_FAILED",
+  GET_WIKI_CONTENT_SUCCESS = "GET_WIKI_CONTENT_SUCCESS",
 }
 
 /* wiki action */
@@ -169,6 +172,39 @@ export const updateWiki = (
         type: WikiActionTypes.UPDATE_WIKI_FAILED,
         payload: {
           updateWikiStatus: enums.RequestStatus.failed,
+        },
+      });
+    }
+  };
+};
+
+export const getWiki = (token: string, wiki: Wiki) => {
+  return async (dispatch: Dispatch<WikiAction>) => {
+    dispatch({
+      type: WikiActionTypes.GET_WIKI_CONTENT_INITIATED,
+      payload: {
+        status: enums.RequestStatus.initiated,
+      },
+    });
+
+    const url = settings.baseUrl + urls.WIKIS + "/" + wiki.id;
+    const response = await RequestHandler.get(url, token);
+
+    if (response?.status === httpStatus.OK) {
+      const content = response.data.data.content;
+      const title = response.data.data.title;
+      dispatch({
+        type: WikiActionTypes.GET_WIKI_CONTENT_SUCCESS,
+        payload: {
+          wikiData: [title, content],
+          status: enums.RequestStatus.success,
+        },
+      });
+    } else {
+      dispatch({
+        type: WikiActionTypes.GET_WIKI_CONTENT_FAILED,
+        payload: {
+          status: enums.RequestStatus.failed,
         },
       });
     }

@@ -8,6 +8,10 @@ export const WikiProps = {
   CONTENT: "content",
 };
 
+export const updateValidator = (() => {
+  return [check(WikiProps.TITLE, "wiki title is required").not().isEmpty()];
+})();
+
 export const createValidator = (() => {
   return [
     check(WikiProps.PARENT_ID, "Parent wiki id is required").not().isEmpty(),

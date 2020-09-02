@@ -10,7 +10,7 @@ import { connect, useSelector } from "react-redux";
 import FolderIcon from "@material-ui/icons/Folder";
 import FolderOpenIcon from "@material-ui/icons/FolderOpenTwoTone";
 import SvgIcon, { SvgIconProps } from "@material-ui/core/SvgIcon";
-import { setExpandedWikis, setSelectedWiki } from "../../actions/wiki";
+import { setExpandedWikis, setSelectedWiki, getWiki } from "../../actions/wiki";
 
 interface Props {
   className: string;
@@ -19,10 +19,12 @@ interface Props {
   selectedWiki?: Wiki;
   setExpandedWikis: Function;
   setSelectedWiki: Function;
+  getWiki: Function;
 }
 
 const WikiTree: React.FC<Props> = (props) => {
   const wikiTree = useSelector((state: AppState) => state.data.wikiTree);
+  const token = useSelector((state: AppState) => state.auth.token);
 
   const TextIcon = (props: SvgIconProps) => {
     return (
@@ -56,6 +58,9 @@ const WikiTree: React.FC<Props> = (props) => {
 
   const onNodeSelect = (e: React.ChangeEvent<{}>, nodeId: any) => {
     const selectedWiki = wikiHelper.getSelectedWiki(nodeId, wikiTree);
+    if (selectedWiki?.type === enums.wikiType.page) {
+      props.getWiki(token, selectedWiki);
+    }
     props.setSelectedWiki(selectedWiki);
   };
 
@@ -91,6 +96,7 @@ const mapStateToProps = (state: AppState) => {
 const mapDispatchToProps = {
   setExpandedWikis,
   setSelectedWiki,
+  getWiki,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(WikiTree);

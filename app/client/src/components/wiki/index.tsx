@@ -13,6 +13,7 @@ const WikiPage: React.FC = () => {
   const selectedWiki = useSelector(
     (state: AppState) => state.data.selectedWiki
   );
+  const wikiData = useSelector((state: AppState) => state.data.wikiData);
   const [doShowAddNewModal, setShowAddNewModal] = useState(false);
   const [doShowEditWikiPageModal, setShowEditWikiPageModal] = useState(false);
   const [doShowEditWikiFolderModal, setShowEditWikiFolderModal] = useState(
@@ -45,11 +46,26 @@ const WikiPage: React.FC = () => {
     setShowEditWikiFolderModal(false);
   };
 
+  const getWikiContent = () => {
+    const data = wikiData?.length
+      ? wikiData[1]
+      : localeHelper.translate("pages.wiki.default-content");
+    return { __html: data };
+  };
+
+  const getWikiTitle = () => {
+    if (wikiData && wikiData.length) {
+      return wikiData[0];
+    }
+
+    return localeHelper.translate("pages.wiki.default-title");
+  };
+
   return (
     <React.Fragment>
       <div className="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 className="h3 mb-0 text-gray-800 font-weight-normal">
-          {localeHelper.translate("pages.wiki.default-title")}
+          {getWikiTitle()}
         </h1>
         <DropdownButton id="dropdown-basic-button" title="Actions" size="sm">
           <Dropdown.Item onClick={onEditWikiClick}>
@@ -81,7 +97,7 @@ const WikiPage: React.FC = () => {
           onCancelClick={hideWikiFolderEditModal}
         />
       </div>
-      <p>{localeHelper.translate("pages.wiki.default-content")}</p>
+      <div dangerouslySetInnerHTML={getWikiContent()}></div>
     </React.Fragment>
   );
 };

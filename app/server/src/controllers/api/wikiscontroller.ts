@@ -7,7 +7,10 @@ import ApiResult from "../../models/ApiResult";
 import wikiService from "../../services/wikiservice";
 import { Request, Response } from "../../types/express";
 import authorize from "../../middlewares/authmiddleware";
-import { createValidator } from "../../validators/wikivalidator";
+import {
+  createValidator,
+  updateValidator,
+} from "../../validators/wikivalidator";
 
 class WikisController extends Controller {
   constructor() {
@@ -17,9 +20,9 @@ class WikisController extends Controller {
 
   protected mapRoute() {
     this.router.get("/", authorize, this.getWikiTree);
-    this.router.post("/", authorize, createValidator, this.createWiki);
-    this.router.put("/:wikiId", authorize, this.updateWiki);
     this.router.get("/:wikiId", authorize, this.getWiki);
+    this.router.post("/", authorize, createValidator, this.createWiki);
+    this.router.put("/:wikiId", authorize, updateValidator, this.updateWiki);
   }
 
   /**
