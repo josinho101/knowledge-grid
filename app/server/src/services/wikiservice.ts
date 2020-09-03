@@ -89,6 +89,28 @@ class WikiService {
   };
 
   /**
+   * delete a wiki
+   * @param id wiki id
+   */
+  public deleteById = async (id: string) => {
+    let status = false;
+    let error: Error = {};
+    let failureMessage = "Invalid wiki id";
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      error.message = failureMessage;
+    } else {
+      await Wiki.findByIdAndUpdate(
+        { _id: id },
+        { status: enums.status.deleted }
+      );
+      status = true;
+    }
+
+    return { status, error };
+  };
+
+  /**
    * construct wiki tree
    * @param wiki parent wiki
    * @param wikis all wikis from db

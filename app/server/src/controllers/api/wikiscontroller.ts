@@ -23,7 +23,29 @@ class WikisController extends Controller {
     this.router.get("/:wikiId", authorize, this.getWiki);
     this.router.post("/", authorize, createValidator, this.createWiki);
     this.router.put("/:wikiId", authorize, updateValidator, this.updateWiki);
+    this.router.delete("/:wikiId", authorize, this.deleteWiki);
   }
+
+  /**
+   * delete wiki
+   */
+  private deleteWiki = async (req: Request, res: Response) => {
+    const wikiId = req.params["wikiId"];
+    const result = await wikiService.deleteById(wikiId);
+    const user = req.user?.id;
+
+    if (!result.status) {
+      return res
+        .status(httpStatus.NOT_FOUND)
+        .json({ error: [result.error] } as ApiResult);
+    }
+
+    logger.info(`wiki with id ${wikiId} deleted by ${user}`);
+
+    return res
+      .status(httpStatus.OK)
+      .json({ data: "Wiki deleted" } as ApiResult);
+  };
 
   /**
    * get wiki
