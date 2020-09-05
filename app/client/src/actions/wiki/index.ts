@@ -28,6 +28,8 @@ export enum WikiActionTypes {
   GET_WIKI_CONTENT_INITIATED = "GET_WIKI_CONTENT_INITIATED",
   GET_WIKI_CONTENT_FAILED = "GET_WIKI_CONTENT_FAILED",
   GET_WIKI_CONTENT_SUCCESS = "GET_WIKI_CONTENT_SUCCESS",
+  DELETE_WIKI_SUCCESS = "DELETE_WIKI_SUCCESS",
+  DELETE_WIKI_FAILED = "DELETE_WIKI_FAILED",
 }
 
 /* wiki action */
@@ -203,6 +205,29 @@ export const getWiki = (token: string, wiki: Wiki) => {
     } else {
       dispatch({
         type: WikiActionTypes.GET_WIKI_CONTENT_FAILED,
+        payload: {
+          status: enums.RequestStatus.failed,
+        },
+      });
+    }
+  };
+};
+
+export const deleteWiki = (token: string, id: string) => {
+  return async (dispatch: Dispatch<WikiAction>) => {
+    const url = settings.baseUrl + urls.WIKIS + "/" + id;
+    const response = await RequestHandler.delete(url, token);
+
+    if (response?.status === httpStatus.OK) {
+      dispatch({
+        type: WikiActionTypes.DELETE_WIKI_SUCCESS,
+        payload: {
+          status: enums.RequestStatus.success,
+        },
+      });
+    } else {
+      dispatch({
+        type: WikiActionTypes.DELETE_WIKI_FAILED,
         payload: {
           status: enums.RequestStatus.failed,
         },

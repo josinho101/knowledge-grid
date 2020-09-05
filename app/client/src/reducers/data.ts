@@ -55,6 +55,8 @@ export default (state: Data = initialState, action: WikiAction): Data => {
       };
     }
     case WikiActionTypes.SAVE_NEW_WIKI_SUCCESS:
+    case WikiActionTypes.DELETE_WIKI_SUCCESS:
+    case WikiActionTypes.DELETE_WIKI_FAILED:
     case WikiActionTypes.WIKI_TREE_RECEIVED:
     case WikiActionTypes.WIKI_TREE_RETRIEVAL_FAILED:
     case WikiActionTypes.WIKI_TREE_RETRIEVAL_INITIATED: {

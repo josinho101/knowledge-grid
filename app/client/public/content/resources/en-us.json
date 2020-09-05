@@ -94,6 +94,12 @@
         "cancel-btn": "Cancel",
         "title": "Edit wiki"
       },
+      "delete-modal": {
+        "title": "Delete wiki",
+        "content": "You sure to delete",
+        "delete-btn": "Delete",
+        "cancel-btn": "Cancel"
+      },
       "default-title": "Welcome to Knowledge grid",
       "default-content": "Knowledge grid is a browser-based application for recording and sharing your knowledge with your colleagues and friends. This application helps you in recording your knowledge in text, images and videos formats. It also supports uploading documents which can later be viewed/downloaded whenever needed."
     },

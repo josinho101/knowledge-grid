@@ -41,10 +41,24 @@ export default class RequestHandler {
    * @param url url
    * @param data data for put
    */
-  public static put = async (url: string, data: any, token?: string) => {
+  public static put = async (url: string, data: any, token: string) => {
     try {
       RequestHandler.setAuthHeader(token!);
       return await axios.put(url, data);
+    } catch (e) {
+      console.error(e);
+      return e.response;
+    }
+  };
+
+  /**
+   * delete request handler
+   * @param url url
+   */
+  public static delete = async (url: string, token: string) => {
+    try {
+      RequestHandler.setAuthHeader(token!);
+      return await axios.delete(url);
     } catch (e) {
       console.error(e);
       return e.response;
