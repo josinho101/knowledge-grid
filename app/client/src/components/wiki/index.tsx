@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import EditWikiPage from "./editwikipage";
 import { useSelector } from "react-redux";
 import { AppState } from "../../reducers";
+import DeleteWikiModal from "./deletewiki";
 import EditWikiFolder from "./editwikifolder";
 import Dropdown from "react-bootstrap/esm/Dropdown";
 import localeHelper from "../../utils/localehelper";
@@ -14,6 +15,7 @@ const WikiPage: React.FC = () => {
     (state: AppState) => state.data.selectedWiki
   );
   const wikiData = useSelector((state: AppState) => state.data.wikiData);
+  const [doShowDeleteModal, setShowDeleteModal] = useState(false);
   const [doShowAddNewModal, setShowAddNewModal] = useState(false);
   const [doShowEditWikiPageModal, setShowEditWikiPageModal] = useState(false);
   const [doShowEditWikiFolderModal, setShowEditWikiFolderModal] = useState(
@@ -32,7 +34,13 @@ const WikiPage: React.FC = () => {
     }
   };
 
-  const onDeleteWikiClick = () => {};
+  const onDeleteWikiClick = () => {
+    setShowDeleteModal(true);
+  };
+
+  const hideDeleteWikiModal = () => {
+    setShowDeleteModal(false);
+  };
 
   const hideAddWikiModal = () => {
     setShowAddNewModal(false);
@@ -95,6 +103,11 @@ const WikiPage: React.FC = () => {
           isOpen={doShowEditWikiFolderModal}
           onSaveClick={hideWikiFolderEditModal}
           onCancelClick={hideWikiFolderEditModal}
+        />
+        <DeleteWikiModal
+          isOpen={doShowDeleteModal}
+          onDeleteClick={hideDeleteWikiModal}
+          onCancelClick={hideDeleteWikiModal}
         />
       </div>
       <div dangerouslySetInnerHTML={getWikiContent()}></div>

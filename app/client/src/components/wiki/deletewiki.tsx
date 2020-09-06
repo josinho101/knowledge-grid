@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Wiki } from "../../models/wiki";
+import React from "react";
 import { AppState } from "../../reducers";
 import { deleteWiki } from "../../actions/wiki";
 import { useSelector, connect } from "react-redux";
@@ -8,21 +7,21 @@ import ConfirmationModal from "../common/confirmationmodal";
 
 interface Props {
   isOpen: boolean;
-  wiki?: Wiki;
   deleteWiki: Function;
+  onDeleteClick: Function;
   onCancelClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
-  onDeleteClick: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 
-const deleteWikiModal: React.FC<Props> = (props) => {
+const DeleteWikiModal: React.FC<Props> = (props) => {
   const token = useSelector((state: AppState) => state.auth.token);
   const selectedWiki = useSelector(
     (state: AppState) => state.data.selectedWiki
   );
 
-  const onCancelClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {};
-
-  const onDeleteClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {};
+  const onDeleteClick = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    props.deleteWiki(token, selectedWiki?.id);
+    props.onDeleteClick();
+  };
 
   const getContent = () => {
     const content = localeHelper.translate("pages.wiki.delete-modal.content");
@@ -40,9 +39,9 @@ const deleteWikiModal: React.FC<Props> = (props) => {
       secondaryButtonText={localeHelper.translate(
         "pages.wiki.delete-modal.cancel-btn"
       )}
-      closeButtonClickHandler={onCancelClick}
       primaryButtonClickHandler={onDeleteClick}
-      secondaryButtonClickHandler={onCancelClick}
+      secondaryButtonClickHandler={props.onCancelClick}
+      closeButtonClickHandler={props.onCancelClick}
       title={localeHelper.translate("pages.wiki.delete-modal.title")}
     />
   );
@@ -52,4 +51,4 @@ const mapDispatchToProps = {
   deleteWiki,
 };
 
-export default connect(undefined, mapDispatchToProps)(deleteWikiModal);
+export default connect(undefined, mapDispatchToProps)(DeleteWikiModal);

@@ -96,7 +96,7 @@
       },
       "delete-modal": {
         "title": "Delete wiki",
-        "content": "You sure to delete",
+        "content": "Do you really want to delete",
         "delete-btn": "Delete",
         "cancel-btn": "Cancel"
       },

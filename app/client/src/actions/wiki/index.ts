@@ -222,6 +222,7 @@ export const deleteWiki = (token: string, id: string) => {
       dispatch({
         type: WikiActionTypes.DELETE_WIKI_SUCCESS,
         payload: {
+          wikiTree: undefined,
           status: enums.RequestStatus.success,
         },
       });
