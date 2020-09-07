@@ -1,7 +1,7 @@
 {
 	"variables": [],
 	"info": {
-		"name": "Sentinel",
+		"name": "KG",
 		"_postman_id": "25a7cd38-d04f-a94b-af14-e1ea42971979",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
@@ -20,6 +20,11 @@
 							{
 								"key": "Content-Type",
 								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWYxOTllYjM2Njk0OTcyZTc0NWExZWY5IiwiZmlyc3RuYW1lIjoiSm9zZXBoIiwibGFzdG5hbWUiOiJKIn0sImlhdCI6MTU5NjM0MTc1MiwiZXhwIjoxNTk2MzQ1MzUyfQ.8guXFkTp0LGSqVRgXnvfDzKaWQfWrsv758IWmKLXzxk",
 								"description": ""
 							}
 						],
@@ -85,7 +90,7 @@
 						"header": [
 							{
 								"key": "x-auth-token",
-								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWYxOTllYjM2Njk0OTcyZTc0NWExZWY5IiwiZmlyc3RuYW1lIjoiSm9zZXBoIiwibGFzdG5hbWUiOiJKIn0sImlhdCI6MTU5NTU5NzQ1NCwiZXhwIjoxNTk1NjAxMDU0fQ.RAjUZOg6bM5biJHbjSmX2CkJYPtK2kp1RGYsef1BvE8",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWYxOTllYjM2Njk0OTcyZTc0NWExZWY5IiwiZmlyc3RuYW1lIjoiSm9zZXBoIiwibGFzdG5hbWUiOiJKIn0sImlhdCI6MTU5NjM0MTc1MiwiZXhwIjoxNTk2MzQ1MzUyfQ.8guXFkTp0LGSqVRgXnvfDzKaWQfWrsv758IWmKLXzxk",
 								"description": ""
 							}
 						],
@@ -173,6 +178,96 @@
 							{
 								"key": "x-auth-token",
 								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWYxOTllYjM2Njk0OTcyZTc0NWExZWY5IiwiZmlyc3RuYW1lIjoiSm9zZXBoIiwibGFzdG5hbWUiOiJKIn0sImlhdCI6MTU5NjAzMDAzMSwiZXhwIjoxNTk2MDMzNjMxfQ.VJpXrOgiEP3c5vU6WpidmEMHIFnoWIk9OAdDf_Vij08",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Wikis",
+			"description": "",
+			"item": [
+				{
+					"name": "Create wiki",
+					"request": {
+						"url": "http://localhost:3001/api/wikis",
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWYxOTllYjM2Njk0OTcyZTc0NWExZWY5IiwiZmlyc3RuYW1lIjoiSm9zZXBoIiwibGFzdG5hbWUiOiJKIn0sImlhdCI6MTU5NzM3Njc4OCwiZXhwIjoxNTk3MzgwMzg4fQ.Xik48NJKHqcbDE6gDIoCGEImDBoeD4Kmm14P4X24Yg0",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"parentId\":\"5f3609ac64bba61488c3d907\",\n\t\"type\": 2,\n\t\"title\":\"Child page 2 - Folder 2.2\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get wikis",
+					"request": {
+						"url": "http://localhost:3001/api/wikis",
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWYxOTllYjM2Njk0OTcyZTc0NWExZWY5IiwiZmlyc3RuYW1lIjoiSm9zZXBoIiwibGFzdG5hbWUiOiJKIn0sImlhdCI6MTU5NzIwMDYyNywiZXhwIjoxNTk3MjA0MjI3fQ.H_SxhwxTJD4M0KmL4ANRnTov4ypQXG_VuFO3P_pAjuA",
+								"description": ""
+							}
+						],
+						"body": {},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Update wiki",
+					"request": {
+						"url": "http://localhost:3001/api/wikis/5f320a9d58afca0920174f8a",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWYxOTllYjM2Njk0OTcyZTc0NWExZWY5IiwiZmlyc3RuYW1lIjoiSm9zZXBoIiwibGFzdG5hbWUiOiJKIn0sImlhdCI6MTU5ODUzNjY4MiwiZXhwIjoxNTk4NTQwMjgyfQ.wBTo9PduaY3QiE3xyPLCPI6PykDOZ9Wrowea0KkYyNo",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\":\"<h2>What is Lorem Ipsum?</h2><p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p><h2>What is Lorem Ipsum?</h2><p><strong>Lorem Ipsum</strong>&nbsp;is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Get wiki by id",
+					"request": {
+						"url": "http://localhost:3001/api/wikis/5f320a9d58afca0920174f8a",
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-auth-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNWYxOTllYjM2Njk0OTcyZTc0NWExZWY5IiwiZmlyc3RuYW1lIjoiSm9zZXBoIiwibGFzdG5hbWUiOiJKIn0sImlhdCI6MTU5ODc5ODA5NiwiZXhwIjoxNTk4ODAxNjk2fQ.tKZ1GS-883iOrle48I_8o8Dw7fFCQCNSzNcp9ImeOJM",
 								"description": ""
 							}
 						],
