@@ -79,7 +79,11 @@ const WikiNavigator: React.FC<Props> = (props) => {
           />
         </Anchor>
       </div>
-      <WikiTree className="treeview-nav" wikis={props.wiki?.children} />
+      <WikiTree
+        className="treeview-nav"
+        wikis={props.wiki?.children}
+        doEnablePageSelection={true}
+      />
     </div>
   );
 };

@@ -20,6 +20,7 @@ interface Props {
   setExpandedWikis: Function;
   setSelectedWiki: Function;
   getWiki: Function;
+  doEnablePageSelection?: boolean;
 }
 
 const WikiTree: React.FC<Props> = (props) => {
@@ -58,10 +59,16 @@ const WikiTree: React.FC<Props> = (props) => {
 
   const onNodeSelect = (e: React.ChangeEvent<{}>, nodeId: any) => {
     const selectedWiki = wikiHelper.getSelectedWiki(nodeId, wikiTree);
-    if (selectedWiki?.type === enums.wikiType.page) {
-      props.getWiki(token, selectedWiki);
+    if (props.doEnablePageSelection) {
+      if (selectedWiki?.type === enums.wikiType.page) {
+        props.getWiki(token, selectedWiki);
+        props.setSelectedWiki(selectedWiki);
+      }
+    } else {
+      if (selectedWiki?.type === enums.wikiType.folder) {
+        props.setSelectedWiki(selectedWiki);
+      }
     }
-    props.setSelectedWiki(selectedWiki);
   };
 
   const onNodeToggle = (e: React.ChangeEvent<{}>, nodeIds: string[]) => {
